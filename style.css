@@ -1,0 +1,548 @@
+.main__preloader {
+    background-color: #000;
+    height: 100vh;
+}
+
+.container {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.main__preloader img {
+    margin-top: 316px;
+    margin-bottom: 123px;
+}
+
+
+.progress-bar {
+    width: 157px;
+    height: 6px;
+    background-color: #373737;
+    overflow: hidden;
+}
+.progress {
+    width: 0%;
+    height: 100%;
+    background-color: #FF44D3;
+    animation: load 5s linear forwards; 
+}
+
+@keyframes load {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+
+
+.main__home {
+    background-color: #000;
+    height: 100vh;
+}
+
+.username {
+    margin-top: 33px;
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    padding: 14px 49px;
+}
+
+
+.balance {
+    margin-top: 58px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.balance span {
+    text-transform: lowercase;
+    color: #FF44D3;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.home__slad {
+    margin-top: 50px;
+    width: 123px;
+}
+
+.lvl {
+    margin-top: 61px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+    border-radius: 29px;
+    background: #000;
+    box-shadow: 0px 0px 5px 0px #FFF;
+    width: 130px;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.home__play {
+    margin-top: 80px;
+    width: 198px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    padding: 6px 0px;
+
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 4px 0px 0px #FF44D3;
+}
+
+.home__play span {
+    color: #FF44D3;
+}
+
+
+
+.menu {
+    width: 214px;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .line {
+    width: 26px;
+    height: 1.5px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #FF44D3;
+    margin-top: 5px; /* Відстань між іконкою і лінією */
+  }
+  
+
+
+
+
+.main__ticket {
+    background-color: #000;
+    height: 100vh;
+}
+
+
+
+.start {
+    width: 198px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 4px 0px 0px #FF44D3;
+    margin-top: 180px;
+    padding: 5px 0px;
+}
+
+
+.ticket__block {
+    margin-top: 222px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ticket {
+    width: 151px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-top: -130px;
+}
+
+
+.ticket.shake {
+    animation: shake 0.5s;
+    animation-iteration-count: 1;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+  }
+  
+
+
+.score__end {
+    margin-top: 80px;
+    color: #FFF;
+    text-shadow: 0px 4px 41.9px #FFF;
+    font-family: MuseoModerno;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    position: absolute;
+}
+
+.score__start {
+    margin-top: 80px;
+    color: #FFF;
+    text-shadow: 0px 4px 41.9px #FFF;
+    font-family: MuseoModerno;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    position: absolute;
+
+}
+
+.score__start span {
+    color: #FF44D3;
+
+}
+
+.score__end span{
+    color: #FF44D3;
+    text-shadow: 0px 4px 41.9px #FFF;
+    font-family: MuseoModerno;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+
+.main__game {
+    background-color: #000;
+    height: 100vh;
+}
+
+.progress__bar {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    display: flex;
+    align-items: center;
+    width: 257px;
+    margin-top: 25px;
+    padding: 13px 25px;
+}
+
+.score {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-right: auto;
+}
+
+.score span {
+    color: #FF44D3;
+}
+
+.seconds {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+.game__block {
+    border: 1px solid #FFF;
+    height: 600px;
+    width: 308px;
+    position: relative; /* Нужно для позиционирования изображений внутри */
+    overflow: hidden; /* Чтобы изображения не выходили за границы */
+  }
+
+  .sladi__img {
+    position: absolute; /* Нужно для случайного позиционирования */
+    transition: opacity 2s; /* Плавное исчезновение */
+  }
+
+
+  .back {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    width: 198px;
+    padding: 6px 73px 6px 45px;
+  }
+
+
+  .arrow__back {
+    margin-right: 8px;
+  }
+
+
+
+.main__task {
+  background-color: #000;
+  height: 100vh;
+}
+
+.task__block {
+  display: flex;
+  flex-direction: column;
+  width: 267px;
+  margin-top: 85px;
+}
+
+.page__name {
+  text-transform: uppercase;
+  color: #FFF;
+  align-items: self-start;
+  font-family: Montserrat;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 30px;
+}
+
+.task__btn {
+    border: 1px solid #333;
+    background: #000;
+    box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    padding: 11px 20.5px 11px 20.5px;
+    margin-bottom: 14px;
+}
+
+.start__task-block {
+    display: flex;
+    flex-direction: column;
+    align-self: self-start;
+    margin-right: auto;
+}
+
+.task__name {
+  color: #FFF;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.task__price {
+    margin-top: 4px;
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+}
+
+.task__price span {
+    color: #FF44D3;
+
+}
+
+
+.back__task-btn {
+    margin-top: 100px;
+    padding: 6px 76px;
+    display: flex;
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+}
+
+.back__task-btn p {
+    margin-left: 23px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+
+
+.main__friend {
+    background-color: #000;
+    height: 100vh;
+}
+
+
+.friend__block {
+    margin-top: 85px;
+    display: flex;
+    flex-direction: column;
+}
+
+.friend__name {
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.friend__info-block {
+    margin-top: 29px;
+    padding: 35px 29.5px 22px 29.5px;
+    width: 267px;
+    border: 1px solid #333;
+    background: #000;
+    box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 207px;
+}
+
+
+.friend__info-block  p {
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.friend__info-block  p span {
+    color: #FF44D3;
+}
+
+.invite__btn {
+    padding: 8px 28px;
+    margin-top: 69px;
+    width: 209px;
+    border: 1px solid #FF44D3;
+    background: #000;
+    box-shadow: 0px 0px 6.6px 0px #FF44D3;
+
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+}
+
+.friend__num {
+    margin-top: 16px;
+    padding: 11px 0px;
+    border: 1px solid #333;
+    background: #000;
+    box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.25);
+
+    color: #FFF;
+    text-align: center;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+
+.back__friend-btn {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+    padding: 6px 76px;
+}
+
+
+
+.back__friend-btn p{
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-left: 23px;
+    
+}
