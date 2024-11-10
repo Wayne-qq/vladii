@@ -8,17 +8,24 @@ const db = getFirestore(app);
 
 let telegramUserId = "not defined"; 
 
+// Перевірка, чи доступний Telegram Web App
 if (window.Telegram && window.Telegram.WebApp) {
-  window.Telegram.WebApp.ready();
-  telegramUserId = window.Telegram.WebApp.user?.id || "not defined";
+  window.Telegram.WebApp.ready(); // Важливо викликати це перед доступом до WebApp
+  const user = window.Telegram.WebApp.user;
+  
+  if (user && user.id) {
+    telegramUserId = user.id.toString();
+  }
 }
 
 const userRef = doc(db, "users", telegramUserId);
 const balanceDisplay = document.querySelector('.balance');
 const scoreStartDisplay = document.querySelector('.score__start'); // Додаємо посилання на елемент score__start
 
+// Перевірка чи є користувач в базі
 getDoc(userRef).then((docSnapshot) => {
   if (!docSnapshot.exists()) {
+    // Якщо користувач не знайдений, записуємо новий документ
     setDoc(userRef, {
       telegramId: telegramUserId,
       points: 0,
@@ -53,6 +60,7 @@ function shakeTickets() {
   setTimeout(() => ticketDisplay.classList.remove('shake'), 500);
 }
 
+// Обробка натискання на кнопку "Грати"
 document.querySelector('.start').addEventListener('click', function() {
   getDoc(userRef).then((docSnapshot) => {
     const tickets = docSnapshot.data().tickets || 0;
