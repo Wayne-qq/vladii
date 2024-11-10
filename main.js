@@ -6,78 +6,88 @@ function _0x43d2(_0x402700,_0x1c8dc5){const _0x5dde45=_0x1646();return _0x43d2=f
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let telegramUserId = "not defined"; 
+let telegramUserId = "not gerroid"; // Ініціалізація з дефолтним значенням
 
-// Перевірка, чи доступний Telegram Web App
+// Перевіряємо наявність Telegram Web App та отримуємо ID користувача
 if (window.Telegram && window.Telegram.WebApp) {
-  window.Telegram.WebApp.ready(); // Важливо викликати це перед доступом до WebApp
-  const user = window.Telegram.WebApp.user;
-  
+  window.Telegram.WebApp.ready(); // Важливо викликати ready перед доступом до Telegram API
+
+  const user = window.Telegram.WebApp.user; // Отримуємо користувача з Telegram Web App
+
   if (user && user.id) {
-    telegramUserId = user.id.toString();
+    telegramUserId = user.id.toString(); // Якщо користувач є, записуємо його ID
   }
 }
 
+// Створюємо посилання на користувача в Firestore
 const userRef = doc(db, "users", telegramUserId);
+
+// Функція для оновлення балансу
 const balanceDisplay = document.querySelector('.balance');
 const scoreStartDisplay = document.querySelector('.score__start'); // Додаємо посилання на елемент score__start
 
-// Перевірка чи є користувач в базі
+// Перевіряємо чи є користувач в базі
 getDoc(userRef).then((docSnapshot) => {
   if (!docSnapshot.exists()) {
-    // Якщо користувач не знайдений, записуємо новий документ
+    // Якщо користувач не знайдений, записуємо нового користувача з дефолтними значеннями
     setDoc(userRef, {
       telegramId: telegramUserId,
       points: 0,
       tickets: 10
     }).then(() => {
-      updateTicketDisplay(10);
-      updateBalanceDisplay(0);
+      updateTicketDisplay(10); // Оновлюємо відображення тікетів
+      updateBalanceDisplay(0); // Оновлюємо відображення балансу
     }).catch((error) => {
       console.error("Error saving user data:", error);
     });
   } else {
     const points = docSnapshot.data().points || 0;
     const tickets = docSnapshot.data().tickets || 0;
-    updateTicketDisplay(tickets);
-    updateBalanceDisplay(points);
+    updateTicketDisplay(tickets); // Оновлюємо відображення тікетів
+    updateBalanceDisplay(points); // Оновлюємо відображення балансу
   }
 });
 
+// Функція для оновлення відображення тікетів
 function updateTicketDisplay(tickets) {
   const ticketDisplay = document.querySelector('.ticket');
   ticketDisplay.innerHTML = `${tickets} ticket`;
 }
 
+// Функція для оновлення відображення балансу
 function updateBalanceDisplay(points) {
   balanceDisplay.innerHTML = `${points} <span>sladi</span>`;
 }
 
+// Функція для анімації тряски
 function shakeTickets() {
   const ticketDisplay = document.querySelector('.ticket');
   ticketDisplay.classList.add('shake');
-  navigator.vibrate(200);
-  setTimeout(() => ticketDisplay.classList.remove('shake'), 500);
+  navigator.vibrate(200); // Вібрація на мобільних
+  setTimeout(() => ticketDisplay.classList.remove('shake'), 500); // Прибираємо анімацію через 500ms
 }
 
-// Обробка натискання на кнопку "Грати"
+// Обробник натискання на кнопку "Грати"
 document.querySelector('.start').addEventListener('click', function() {
   getDoc(userRef).then((docSnapshot) => {
     const tickets = docSnapshot.data().tickets || 0;
 
     if (tickets > 0) {
+      // Якщо є білети, зменшуємо кількість білетів на 1
       updateDoc(userRef, {
         tickets: tickets - 1
       }).then(() => {
-        updateTicketDisplay(tickets - 1);
-        startGame();
+        updateTicketDisplay(tickets - 1); // Оновлюємо відображення тікетів
+        startGame(); // Починаємо гру
       });
     } else {
+      // Якщо білетів немає, трясемо елемент та вібруємо
       shakeTickets();
     }
   });
 });
 
+// Функція для початку гри
 function startGame() {
   const ticket = document.querySelector('.main__ticket');
   const game = document.querySelector('.main__game');
