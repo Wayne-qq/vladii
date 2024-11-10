@@ -6,27 +6,21 @@ function _0x43d2(_0x402700,_0x1c8dc5){const _0x5dde45=_0x1646();return _0x43d2=f
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-let telegramUserId = "not gerroid"; // Ініціалізація з дефолтним значенням
+// Ініціалізуємо WebApp Telegram
+const tg = window.Telegram ? window.Telegram.WebApp : null;
+let telegramUserId = "no id"; // За замовчуванням
 
-// Перевіряємо наявність Telegram Web App та отримуємо ID користувача
-if (window.Telegram && window.Telegram.WebApp) {
-  window.Telegram.WebApp.ready(); // Важливо викликати ready перед доступом до Telegram API
-
-  const user = window.Telegram.WebApp.user; // Отримуємо користувача з Telegram Web App
-
-  if (user && user.id) {
-    telegramUserId = user.id.toString(); // Якщо користувач є, записуємо його ID
-  }
+// Отримуємо дані користувача через Telegram WebApp
+if (tg && tg.initDataUnsafe?.user?.id) {
+  telegramUserId = tg.initDataUnsafe.user.id.toString(); // Якщо ID існує, зберігаємо його
+} else {
+  console.log('Telegram ID не знайдено, використовуємо значення "not defined"');
 }
 
 // Створюємо посилання на користувача в Firestore
 const userRef = doc(db, "users", telegramUserId);
 
-// Функція для оновлення балансу
-const balanceDisplay = document.querySelector('.balance');
-const scoreStartDisplay = document.querySelector('.score__start'); // Додаємо посилання на елемент score__start
-
-// Перевіряємо чи є користувач в базі
+// Перевірка, чи є користувач в базі
 getDoc(userRef).then((docSnapshot) => {
   if (!docSnapshot.exists()) {
     // Якщо користувач не знайдений, записуємо нового користувача з дефолтними значеннями
@@ -56,6 +50,7 @@ function updateTicketDisplay(tickets) {
 
 // Функція для оновлення відображення балансу
 function updateBalanceDisplay(points) {
+  const balanceDisplay = document.querySelector('.balance');
   balanceDisplay.innerHTML = `${points} <span>sladi</span>`;
 }
 
@@ -107,7 +102,6 @@ function startGame() {
 
   ticket.style.display = 'none';
   game.style.display = 'block';
-  scoreStartDisplay.style.display = 'none'; // Приховуємо score__start на початку гри
 
   const timerInterval = setInterval(() => {
     timeLeft--;
@@ -178,7 +172,6 @@ function startGame() {
     clearInterval(spawnInterval);
   }, 30000);
 }
-
 
 
 
