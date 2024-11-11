@@ -195,7 +195,6 @@
 }
 
 .ticket {
-    width: 151px;
     color: #FFF;
     font-family: MuseoModerno;
     font-size: 32px;
@@ -306,9 +305,8 @@
 
 
 .game__block {
-    border: 1px solid #FFF;
-    height: 600px;
-    width: 308px;
+    height: 85vh;
+    width: 99%;
     position: relative; /* Нужно для позиционирования изображений внутри */
     overflow: hidden; /* Чтобы изображения не выходили за границы */
   }

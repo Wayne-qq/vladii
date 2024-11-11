@@ -58,7 +58,7 @@ function updateBalanceDisplay(points) {
 function shakeTickets() {
   const ticketDisplay = document.querySelector('.ticket');
   ticketDisplay.classList.add('shake');
-  navigator.vibrate(200); // Вібрація на мобільних
+  navigator.vibrate(100); // Вібрація на мобільних
   setTimeout(() => ticketDisplay.classList.remove('shake'), 500); // Прибираємо анімацію через 500ms
 }
 
@@ -81,98 +81,101 @@ document.querySelector('.start').addEventListener('click', function() {
     }
   });
 });
-
 // Функція для початку гри
 function startGame() {
-  const ticket = document.querySelector('.main__ticket');
-  const game = document.querySelector('.main__game');
-  const gameBlock = document.querySelector('.game__block');
-  const scoreDisplay = document.querySelector('.score');
-  const timerDisplay = document.querySelector('.seconds');
-  const scoreEndDisplay = document.querySelector('.score__end');
-
-  let score = 0;
-  scoreDisplay.innerHTML = `0<span>sladi</span>`;
-  let timeLeft = 30;
-  let spawnInterval;
-
-  const maxScore = 500;
-  const maxClicks = 30;
-  const basePoints = maxScore / maxClicks;
-
-  ticket.style.display = 'none';
-  game.style.display = 'block';
-
-  const timerInterval = setInterval(() => {
-    timeLeft--;
-    timerDisplay.textContent = `${timeLeft}s`;
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      clearInterval(spawnInterval);
-
-      game.style.display = 'none';
-      ticket.style.display = 'block';
-      scoreEndDisplay.style.display = 'block';
-      scoreEndDisplay.innerHTML = `+ ${Math.round(score)} <span>sladi</span>`;
-
-      getDoc(userRef).then((docSnapshot) => {
-        const currentPoints = docSnapshot.data().points || 0;
-        const totalPoints = currentPoints + Math.round(score);
-
-        updateDoc(userRef, {
-          points: totalPoints
-        }).then(() => {
-          updateBalanceDisplay(totalPoints); 
-          console.log("User points updated in Firestore:", totalPoints);
-        }).catch((error) => {
-          console.error("Error updating user points:", error);
+    const ticket = document.querySelector('.main__ticket');
+    const game = document.querySelector('.main__game');
+    const gameBlock = document.querySelector('.game__block');
+    const scoreDisplay = document.querySelector('.score');
+    const timerDisplay = document.querySelector('.seconds');
+    const scoreEndDisplay = document.querySelector('.score__end');
+    const scoreStartDisplay = document.querySelector('.score__start'); // Додаємо елемент score__start
+  
+    let score = 0;
+    scoreDisplay.innerHTML = `0<span>sladi</span>`;
+    let timeLeft = 30;
+    let spawnInterval;
+  
+    const maxScore = 500;
+    const maxClicks = 30;
+    const basePoints = maxScore / maxClicks;
+  
+    ticket.style.display = 'none';
+    game.style.display = 'block';
+  
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDisplay.textContent = `${timeLeft}s`;
+  
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        clearInterval(spawnInterval);
+  
+        game.style.display = 'none';
+        ticket.style.display = 'block';
+        scoreEndDisplay.style.display = 'block';
+        scoreEndDisplay.innerHTML = `+ ${Math.round(score)} <span>sladi</span>`;
+  
+        // Змінюємо display на none для score__start після завершення гри
+        scoreStartDisplay.style.display = 'none';
+  
+        getDoc(userRef).then((docSnapshot) => {
+          const currentPoints = docSnapshot.data().points || 0;
+          const totalPoints = currentPoints + Math.round(score);
+  
+          updateDoc(userRef, {
+            points: totalPoints
+          }).then(() => {
+            updateBalanceDisplay(totalPoints); 
+            console.log("User points updated in Firestore:", totalPoints);
+          }).catch((error) => {
+            console.error("Error updating user points:", error);
+          });
         });
-      });
-    }
-  }, 1000);
-
-  spawnInterval = setInterval(() => {
-    const img = document.createElement('img');
-    img.src = './img/slad-lvl-1.png';
-    img.alt = '';
-    img.classList.add('sladi__img');
-
-    const randomSize = Math.floor(Math.random() * (105 - 30 + 1)) + 30;
-    img.style.width = randomSize + 'px';
-    img.style.height = randomSize + 'px';
-
-    const maxX = gameBlock.clientWidth - randomSize;
-    const maxY = gameBlock.clientHeight - randomSize;
-    img.style.left = Math.floor(Math.random() * maxX) + 'px';
-    img.style.top = Math.floor(Math.random() * maxY) + 'px';
-
-    const randomRotation = Math.floor(Math.random() * 360);
-    img.style.transform = `rotate(${randomRotation}deg)`;
-
-    gameBlock.appendChild(img);
-
-    img.addEventListener('click', () => {
-      const points = ((105 - randomSize) / 75) * basePoints;
-      score += points;
-      scoreDisplay.innerHTML = `${Math.round(score)}<span>sladi</span>`;
-      navigator.vibrate(100);
-      img.remove();
-    });
-
-    setTimeout(() => {
-      img.style.opacity = '0';
-      setTimeout(() => {
+      }
+    }, 1000);
+  
+    spawnInterval = setInterval(() => {
+      const img = document.createElement('img');
+      img.src = './img/slad-lvl-1.png';
+      img.alt = '';
+      img.classList.add('sladi__img');
+  
+      const randomSize = Math.floor(Math.random() * (75 - 30 + 1)) + 30;
+      img.style.width = randomSize + 'px';
+      img.style.height = randomSize + 'px';
+  
+      const maxX = gameBlock.clientWidth - randomSize;
+      const maxY = gameBlock.clientHeight - randomSize;
+      img.style.left = Math.floor(Math.random() * maxX) + 'px';
+      img.style.top = Math.floor(Math.random() * maxY) + 'px';
+  
+      const randomRotation = Math.floor(Math.random() * 360);
+      img.style.transform = `rotate(${randomRotation}deg)`;
+  
+      gameBlock.appendChild(img);
+  
+      img.addEventListener('click', () => {
+        const points = ((105 - randomSize) / 75) * basePoints;
+        score += points;
+        scoreDisplay.innerHTML = `${Math.round(score)}<span>sladi</span>`;
+        navigator.vibrate(50);
         img.remove();
-      }, 2000);
-    }, 2000);
-  }, 400);
-
-  setTimeout(() => {
-    clearInterval(spawnInterval);
-  }, 30000);
-}
-
+      });
+  
+      setTimeout(() => {
+        img.style.opacity = '0';
+        setTimeout(() => {
+          img.remove();
+        }, 700);
+      }, 700);
+    }, 250);
+  
+    setTimeout(() => {
+      clearInterval(spawnInterval);
+    }, 30000);
+  }
+  
 
 
 
