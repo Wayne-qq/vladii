@@ -25,7 +25,7 @@
     <main class="main__home" style="display: none;">
         <div class="container">
             <p class="username">Username_user</p>
-            <p class="balance">1 302 <span>sladi</span></p>
+            <p class="balance">1 302 <span>sladi</span></p> 
             <img class="puffers__lvl" src="./img/Puffers.svg" style="display: block;" alt="">
             <img class="fuuz__lvl" src="./img/Fuuz.svg" style="display: none;" alt="">
             <img class="zing__lvl" src="./img/Zing.svg" style="display: none;" alt="">
@@ -89,7 +89,7 @@
           <button class="task__btn">
             <div class="start__task-block">
               <p class="task__name">Telegram</p>
-              <p class="task__price">+ 200 <span>sladi</span></p>
+              <p class="task__price">+ 1000 <span>sladi</span></p>
             </div>
             <div class="tsask__icon">
               <img src="./img/cross.svg" alt="" style="display: block;">
@@ -100,7 +100,7 @@
           <button class="task__btn task__friend">
             <div class="start__task-block">
               <p class="task__name">Invite 1 friend</p>
-              <p class="task__price">+ 200 <span>sladi</span></p>
+              <p class="task__price">+ 500 <span>sladi</span></p>
             </div>
             <div class="tsask__icon">
               <img src="./img/cross.svg" alt="" style="display: block;">
@@ -111,14 +111,27 @@
           <button class="task__btn task__friend">
             <div class="start__task-block">
               <p class="task__name">Invite 5 friend</p>
-              <p class="task__price">+ 200 <span>sladi</span></p>
+              <p class="task__price">+ 5000 <span>sladi</span></p>
             </div>
             <div class="tsask__icon">
               <img src="./img/cross.svg" alt="" style="display: block;">
               <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
             </div>
           </button>
+
+          <button id="btn__wallet"  class="task__btn task__friend">
+            <div class="start__task-block">
+              <p class="task__name">Connect wallet</p>
+              <p class="task__price">+ 1000 <span>sladi</span></p>
+            </div>
+            <div class="tsask__icon">
+              <img id="wallet__cross" src="./img/cross.svg" alt="" style="display: block;">
+              <img id="wallet__check" class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+            </div>
+          </button>
         </div>
+
+
 
         <button class="back__task-btn">
           <svg xmlns="http://www.w3.org/2000/svg" width="39" height="8" viewBox="0 0 39 8" fill="none">  <rect x="1" y="3" width="38" height="2" fill="white"/>  <rect y="3.31006" width="5.21149" height="2" transform="rotate(-39.4307 0 3.31006)" fill="white"/>  <rect width="5.21149" height="2" transform="matrix(-0.772393 -0.635144 -0.635144 0.772393 5.29565 6.31006)" fill="white"/></svg>
@@ -145,6 +158,36 @@
       </div>
     </main>
 
+
+    <main class="main__connect-wallet" style="display: none;">
+      <div class="container">
+        <div class="connect__block">
+          <p class="coonect__name" style="display: block;">Wallet</p>
+          <p class="wallet__name" style="display: none;">Connect</p>
+          <img class="slad__ton" src="./img/slad-ton.svg" alt="">
+          <input class="input__wallet" type="text" placeholder="TON wallet address" style="display: flex;">
+          <button class="send__wallet" style="display: flex;">
+            <p>Connect</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="39" height="8" viewBox="0 0 39 8" fill="none">  <rect width="38" height="2" transform="matrix(-1 0 0 1 38 3)" fill="white"/>  <rect width="5.21149" height="2" transform="matrix(-0.772393 -0.635144 -0.635144 0.772393 39 3.31006)" fill="white"/>  <rect x="33.7043" y="6.31006" width="5.21149" height="2" transform="rotate(-39.4307 33.7043 6.31006)" fill="white"/></svg>
+          </button>
+          <div class="wallet" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">  <rect x="0.5" y="0.5" width="24" height="24" stroke="white"/>  <path d="M12.067 17.25L8.16987 10.5C7.97742 10.1667 8.21799 9.75 8.60289 9.75L16.3971 9.75C16.782 9.75 17.0226 10.1667 16.8301 10.5L12.933 17.25C12.7406 17.5833 12.2594 17.5833 12.067 17.25Z" stroke="white"/>  <rect x="12.25" y="10.25" width="0.5" height="6.5" rx="0.25" fill="white" stroke="white" stroke-width="0.5"/></svg>
+            <p class="wallet__adress">0x93g93d...2k92lcXJ</p>
+          </div>
+          <p class="pool__first" style="display: none;">The first pool - 10 000$</p>
+
+          <button class="back__wallet-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="39" height="8" viewBox="0 0 39 8" fill="none">  <rect x="1" y="3" width="38" height="2" fill="white"/>  <rect y="3.31006" width="5.21149" height="2" transform="rotate(-39.4307 0 3.31006)" fill="white"/>  <rect width="5.21149" height="2" transform="matrix(-0.772393 -0.635144 -0.635144 0.772393 5.29565 6.31006)" fill="white"/></svg>
+            <p>Back</p>
+          </button>
+        </div>
+      </div>
+    </main>
+
+
+
+
+    <div class="fade-overlay"></div>
 
     <nav class="nav" style="display: none;">
         <ul class="menu">

@@ -28,33 +28,177 @@ const tasks = [
   { name: "Invite 5 friend", points: 200, isFriendTask: true }
 ];
 
-// Перевіряємо наявність користувача у базі та ініціалізуємо його дані
+const friendNumElement = document.querySelector('.friend__num');
+
+function updateFriendCount(count) {
+    friendNumElement.textContent = `friends: ${count}`;
+}
+
+
+
 getDoc(userRef).then((docSnapshot) => {
-  if (!docSnapshot.exists()) {
-    setDoc(userRef, {
-      telegramId: telegramUserId,
-      points: 0,
-      tasksCompleted: [],
-      friends: 0,
-      tickets: 10
-    }).then(() => {
-      updateTicketDisplay(10); // Оновлюємо відображення тікетів
-      updateBalanceDisplay(0); // Оновлюємо відображення балансу
-    }).catch((error) => {
-      console.error("Помилка при збереженні даних користувача:", error);
-    });
-  } else {
-    const completedTasks = docSnapshot.data().tasksCompleted || [];
-    const points = docSnapshot.data().points || 0;
-    const tickets = docSnapshot.data().tickets || 0;
+    if (!docSnapshot.exists()) {
+      setDoc(userRef, {
+        telegramId: telegramUserId,
+        points: 0,
+        tasksCompleted: [],
+        friends: 0,
+        tickets: 10
+      }).then(() => {
+        updateTicketDisplay(10); // Оновлюємо відображення тікетів
+        updateBalanceDisplay(0); // Оновлюємо відображення балансу
+        updateFriendCount(0); // Встановлюємо початкову кількість друзів
+      }).catch((error) => {
+        console.error("Помилка при збереженні даних користувача:", error);
+      });
+    } else {
+      const completedTasks = docSnapshot.data().tasksCompleted || [];
+      const points = docSnapshot.data().points || 0;
+      const tickets = docSnapshot.data().tickets || 0;
+      const friends = docSnapshot.data().friends || 0;
+  
+      updateTicketDisplay(tickets); // Оновлюємо відображення тікетів
+      updateBalanceDisplay(points); // Оновлюємо відображення балансу
+      updateFriendCount(friends); // Оновлюємо кількість друзів
+  
+      updateTaskIcons(completedTasks); // Оновлюємо статус виконаних завдань
+    }
+  }).catch((error) => {
+    console.error("Помилка при завантаженні даних користувача:", error);
+  });
+  
 
-    updateTicketDisplay(tickets); // Оновлюємо відображення тікетів
-    updateBalanceDisplay(points); // Оновлюємо відображення балансу
 
-    updateTaskIcons(completedTasks); // Оновлюємо статус виконаних завдань
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Функція для перевірки довжини гаманця
+function validateWalletAddress(walletAddress) {
+  // Видалення зайвих пробілів з початку та кінця адреси
+  walletAddress = walletAddress.trim();
+  
+  // Перевірка довжини гаманця (від 52 до 60 символів)
+  if (walletAddress.length < 52 || walletAddress.length > 60) {
+    // Якщо довжина не в межах, анімуємо інпут
+    const inputElement = document.querySelector(".input__wallet");
+    inputElement.classList.add("shakingInput");
+    
+    // Затримка для анімації
+    setTimeout(() => {
+      inputElement.classList.remove("shakingInput");
+    }, 1000); // Тривалість анімації - 1 секунда
+    return false;
   }
+  return true;
+}
+
+// Функція для збереження гаманця в базу даних
+function saveWalletAddress() {
+  let walletAddress = document.querySelector(".input__wallet").value;
+
+  if (validateWalletAddress(walletAddress)) {
+    // Якщо адреса гаманця правильна, зберігаємо в базі
+    setDoc(userRef, { wallet: walletAddress }, { merge: true })
+      .then(() => {
+        // Додаємо 1000 до points після підключення гаманця
+        const userRef = doc(db, "users", telegramUserId);
+        updateDoc(userRef, {
+          points: increment(1000)
+        }).then(() => {
+          console.log("1000 points успішно додано.");
+        }).catch((error) => {
+          console.error("Помилка при оновленні points:", error);
+        });
+
+        // Приховуємо інпут та кнопку
+        document.querySelector(".input__wallet").style.display = "none";
+        document.querySelector(".send__wallet").style.display = "none";
+        
+        // Відображаємо <div class="wallet"> та <p class="pool__first">
+        document.querySelector(".wallet").style.display = "block";
+        document.querySelector(".pool__first").style.display = "block";
+
+        // Відображаємо гаманець в потрібному форматі
+        const formattedWallet = formatWalletAddress(walletAddress);
+        document.querySelector(".wallet__adress").textContent = formattedWallet;
+
+        // Приховуємо "Wallet" і показуємо "Connect"
+        document.querySelector(".coonect__name").style.display = "none";
+        document.querySelector(".wallet__name").style.display = "block";
+
+        // Змінюємо видимість для "wallet__check" та "wallet__cross"
+        document.getElementById("wallet__cross").style.display = "none";
+        document.getElementById("wallet__check").style.display = "block";
+      })
+      .catch((error) => {
+        console.error("Помилка при збереженні адреси гаманця:", error);
+      });
+  } else {
+    console.warn("Адреса гаманця повинна мати від 52 до 60 символів.");
+  }
+}
+
+// Функція для форматування адреси гаманця
+function formatWalletAddress(walletAddress) {
+  const firstPart = walletAddress.slice(0, 8); // Перші 8 символів
+  const lastPart = walletAddress.slice(-8); // Останні 8 символів
+  return `${firstPart}...${lastPart}`;
+}
+
+// Додаємо обробник на кнопку
+document.querySelector(".send__wallet").addEventListener("click", saveWalletAddress);
+
+// Перевірка наявності адреси гаманця при завантаженні сторінки
+getDoc(userRef).then((docSnapshot) => {
+  if (docSnapshot.exists() && docSnapshot.data().wallet) {
+    const walletAddress = docSnapshot.data().wallet;
+    
+    // Якщо адреса гаманця вже є, приховуємо інпут та кнопку і відображаємо інші елементи
+    document.querySelector(".input__wallet").style.display = "none";
+    document.querySelector(".send__wallet").style.display = "none";
+    
+    document.querySelector(".wallet").style.display = "block";
+    document.querySelector(".pool__first").style.display = "block";
+    
+    // Відображаємо гаманець в потрібному форматі
+    const formattedWallet = formatWalletAddress(walletAddress);
+    document.querySelector(".wallet__adress").textContent = formattedWallet;
+
+    // Приховуємо "Wallet" і показуємо "Connect"
+    document.querySelector(".coonect__name").style.display = "none";
+    document.querySelector(".wallet__name").style.display = "block";
+
+    // Змінюємо видимість для "wallet__check" та "wallet__cross"
+    document.getElementById("wallet__cross").style.display = "none";
+    document.getElementById("wallet__check").style.display = "block";
+  }
+}).catch((error) => {
+  console.error("Помилка при завантаженні даних користувача:", error);
 });
 
+
+
+
+
+
+
+
+
+
+
+
+  
 // Обробка натискання на завдання
 document.querySelectorAll('.task__btn').forEach((taskBtn, index) => {
   taskBtn.addEventListener('click', () => handleTaskClick(tasks[index]));
@@ -101,6 +245,13 @@ function handleTaskClick(task) {
       }
     });
   }
+  
+
+
+
+
+
+
   
 
 // Функція для завдань типу friend
@@ -327,6 +478,25 @@ function startGame() {
 
 
 
+  function shakeeTickets() {
+    const ticketDisplay = document.querySelector('.ticket');
+    const scoreStartDisplay = document.querySelector('.score__start');
+    
+    // Змінюємо текст на "You will receive the tickets in 1 day"
+    const originalText = scoreStartDisplay.innerHTML;
+    scoreStartDisplay.innerHTML = "You will receive the tickets in 1 day";
+    
+    // Тряска елементу і вібрація на мобільних
+    ticketDisplay.classList.add('shake');
+    navigator.vibrate(100); // Вібрація для мобільних
+    setTimeout(() => ticketDisplay.classList.remove('shake'), 500); // Прибираємо анімацію через 500ms
+    
+    // Повертаємо початковий текст через 2 секунди
+    setTimeout(() => {
+      scoreStartDisplay.innerHTML = originalText;
+    }, 2000);
+  }
+  
 
 
 
@@ -336,125 +506,167 @@ function startGame() {
 
 
 
- // Знаходимо кнопку та елементи
- const backButton = document.querySelector('.back');
- const ticketMain = document.querySelector('.main__ticket');
- const homeMain = document.querySelector('.main__home');
-
- // Додаємо обробник події на кнопку
- backButton.addEventListener('click', () => {
-
-   // Змінюємо display для елементів
-   ticketMain.style.display = 'none';
-   homeMain.style.display = 'block';
-   document.querySelector('.nav').style.display = 'block';
-   document.querySelector('.score__start').style.display = 'block';
-   document.querySelector('.score__end').style.display = 'none';
-   document.querySelector('.menu').style.position = 'fixed';
-
-   score__end
- });
 
 
 
 
-// Знаходимо кнопку та елементи
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Знаходимо елемент для затемнення
+const fadeOverlay = document.querySelector('.fade-overlay');
+
+// Функція для плавного переходу з чорним затуханням
+function switchPageWithFade(hideElement, showElement) {
+    // Активуємо чорний фон для ефекту затемнення
+    fadeOverlay.classList.add('active');
+
+    // Після короткої затримки (час затемнення)
+    setTimeout(() => {
+        // Ховаємо старий елемент
+        hideElement.style.display = 'none';
+
+        // Показуємо новий елемент
+        showElement.style.display = 'block';
+
+        // Плавно прибираємо чорний фон
+        setTimeout(() => {
+            fadeOverlay.classList.remove('active');
+        }, 200); // Час для зникнення ефекту затемнення
+    }, 200); // Час для ефекту затемнення при появі чорного фону
+}
+
+// Функції для відображення та приховання навігації
+function showNav() {
+    document.querySelector('.nav').style.display = 'block';
+}
+
+function hideNav() {
+    document.querySelector('.nav').style.display = 'none';
+}
+
+// Встановлюємо обробники подій для переходів між сторінками
+const backButton = document.querySelector('.back');
+const ticketMain = document.querySelector('.main__ticket');
+const homeMain = document.querySelector('.main__home');
+
+backButton.addEventListener('click', () => {
+    switchPageWithFade(ticketMain, homeMain);
+    showNav();
+});
+
 const taskButton = document.querySelector('.nav__task-btn');
-const homeMainn = document.querySelector('.main__home');
 const taskMain = document.querySelector('.main__task');
 
-// Додаємо обробник події на кнопку
 taskButton.addEventListener('click', () => {
-  // Змінюємо display для елементів
-  homeMainn.style.display = 'none';
-  taskMain.style.display = 'block';
-  document.querySelector('.nav').style.display = 'none';
-
+    switchPageWithFade(homeMain, taskMain);
+    hideNav();
 });
 
-
-
-
-// Знаходимо кнопку та елементи
 const friendButton = document.querySelector('.nav__friend-btn');
-const homePage = document.querySelector('.main__home');
 const friendMain = document.querySelector('.main__friend');
 
-// Додаємо обробник події на кнопку
 friendButton.addEventListener('click', () => {
-  // Змінюємо display для елементів
-  homePage.style.display = 'none';
-  friendMain.style.display = 'block';
-  document.querySelector('.nav').style.display = 'none';
-
+    switchPageWithFade(homeMain, friendMain);
+    hideNav();
 });
 
-
-
-// Знаходимо кнопку та елементи
 const backButtonTask = document.querySelector('.back__task-btn');
-const taskSection = document.querySelector('.main__task');
-const homeSection = document.querySelector('.main__home');
 
-// Додаємо обробник події на кнопку
 backButtonTask.addEventListener('click', () => {
-  // Змінюємо display для елементів
-  taskSection.style.display = 'none';
-  homeSection.style.display = 'block';
-  document.querySelector('.nav').style.display = 'block';
+    switchPageWithFade(taskMain, homeMain);
+    showNav();
 });
 
+const friendBackActionButton = document.querySelector('.back__friend-btn');
 
- // Знаходимо кнопку та елементи
- const friendBackActionButton = document.querySelector('.back__friend-btn');
- const friendContentSection = document.querySelector('.main__friend');
- const homeContentSection = document.querySelector('.main__home');
-
- // Додаємо обробник події на кнопку
- friendBackActionButton.addEventListener('click', () => {
-   // Змінюємо display для елементів
-   friendContentSection.style.display = 'none';
-   homeContentSection.style.display = 'block';
-  document.querySelector('.nav').style.display = 'block';
-
- });
-
-
-
-
-
-// Запустити функцію через 5 секунд
-setTimeout(function() {
-    // Змінити display стилі блоків
-    document.querySelector('.main__preloader').style.display = 'none';
-    document.querySelector('.main__home').style.display = 'block';
-
-    // Змінити позицію .menu на fixed
-    document.querySelector('.menu').style.position = 'fixed';
-    document.querySelector('.nav').style.display = 'block';
-}, 1000);
-
-
-
-
-
-
+friendBackActionButton.addEventListener('click', () => {
+    switchPageWithFade(friendMain, homeMain);
+    showNav();
+});
 
 const playButton = document.querySelector('.home__play');
-    const mainHome = document.querySelector('.main__home');
-    const mainTicket = document.querySelector('.main__ticket');
+const mainTicket = document.querySelector('.main__ticket');
+const menu = document.querySelector('.menu');
+
+playButton.addEventListener('click', () => {
+    switchPageWithFade(homeMain, mainTicket);
+    menu.style.position = 'static';
+    hideNav();
+});
+
+// Приховуємо preloader після 1 секунди
+setTimeout(() => {
+    document.querySelector('.main__preloader').style.display = 'none';
+    homeMain.style.display = 'block';
+    document.querySelector('.menu').style.position = 'fixed';
+    showNav();
+}, 1000);
+
+// Обробник подій для кнопки "Connect Wallet"
+const btnWallet = document.querySelector('#btn__wallet');
+const mainConnectWallet = document.querySelector('.main__connect-wallet');
+
+btnWallet.addEventListener('click', () => {
+    switchPageWithFade(taskMain, mainConnectWallet);
+});
+
+// Обробник подій для кнопки "Back to Tasks"
+const backWalletBtn = document.querySelector('.back__wallet-btn');
+
+backWalletBtn.addEventListener('click', () => {
+    switchPageWithFade(mainConnectWallet, taskMain);
+});
+
+// Отримуємо кнопку і навігаційне меню
+const bacckButton = document.querySelector('.back');
+const nav = document.querySelector('.nav');
+
+// Додаємо обробник події на кнопку
+bacckButton.addEventListener('click', function() {
+  // Змінюємо стиль навігаційного меню на display: block
+  nav.style.display = 'block';
+});
+
+
+
+
+
+
+
+document.querySelector('.back').addEventListener('click', function() {
     const menu = document.querySelector('.menu');
-
-    playButton.addEventListener('click', () => {
-        mainHome.style.display = 'none'; // Сховати головну сторінку
-        mainTicket.style.display = 'block'; // Відобразити сторінку квитків
-        menu.style.position = 'static'; // Змінити позицію меню
-        document.querySelector('.nav').style.display = 'none';
-
-    });
+    menu.style.position = 'fixed';
+  });
+  
 
 
 
+
+
+
+
+
+
+
+
+
+
+    
 
 
 
@@ -510,3 +722,25 @@ const playButton = document.querySelector('.home__play');
   });
 
   showImage(currentIndex); // Показуємо початкове зображення
+
+
+
+
+
+  // Переконайся, що SDK Telegram Web Apps підключений
+const usernameElement = document.querySelector('.username');
+
+// Функція для отримання юзернейма користувача
+function displayTelegramUsername() {
+    if (window.Telegram && window.Telegram.WebApp) {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        if (user && user.username) {
+            usernameElement.textContent = user.username;
+        } else {
+            usernameElement.textContent = "Anonymous"; // Текст за замовчуванням, якщо юзернейм не доступний
+        }
+    }
+}
+
+// Виклич функцію після завантаження сторінки
+document.addEventListener('DOMContentLoaded', displayTelegramUsername);

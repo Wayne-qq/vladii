@@ -58,12 +58,15 @@
     font-weight: 400;
     line-height: normal;
     padding: 14px 0px;
-    width: 241px;
+    width: 70%;
     margin-top: 72px;
 }
 
 
+
  .balance {
+    margin-top: 24px;
+    width: 70%;
     color: #FFF;
     font-family: MuseoModerno;
     font-size: 20px;
@@ -73,10 +76,8 @@
     text-transform: uppercase;
     border-radius: 1px;
     border: 1px solid #FFF;
-    width: 241px;
     text-align: center;
     padding: 6px 0px;
-    margin-top: 24px;
     transition: transform 0.1s; 
   }
 
@@ -103,14 +104,15 @@
 .fuuz__lvl,
 .zing__lvl {
     margin-top: 24px;
-    width: 241px;
-    height: 224px;
+    width: 70%;
+    height: 70%;
+
 }
 
 
 .home__lvl-btn {
     margin-top: 24px;
-    width: 241px;
+    width: 70%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -146,7 +148,7 @@
 .home__buy-fuuz,
 .home__buy-zing {
     margin-top: 24px;
-    width: 241px;
+    width: 70%;
     color: #FFF;
     font-family: MuseoModerno;
     font-size: 20px;
@@ -539,7 +541,6 @@
 .friend__info-block {
     margin-top: 29px;
     padding: 35px 29.5px 22px 29.5px;
-    width: 267px;
     border: 1px solid #333;
     background: #000;
     box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.25);
@@ -623,3 +624,200 @@
     margin-left: 23px;
     
 }
+
+
+.main__connect-wallet {
+    background-color: #000;
+    height: 100vh;
+}
+
+.connect__block {
+    margin-top: 85px;
+    display: flex;
+    flex-direction: column;
+}
+
+.coonect__name,
+.wallet__name {
+    color: #FFF;
+    text-align: left;
+    font-family: Montserrat;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.slad__ton {
+    margin-top: 32px;
+    width: 267px;
+    height: 231px;
+    border: 1.5px solid #fff;
+}
+
+/* Стиль для інпуту */
+.input__wallet {
+  margin-top: 20px;
+  border-radius: 1px;
+  border: 1.5px solid #FFF;
+  background: #000;
+  width: 247px;
+  color: #FFF;
+  font-family: MuseoModerno;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  outline: none;
+  height: 44px;
+  padding-left: 20px;
+}
+
+/* Анімація для трясіння інпуту */
+.shakingInput {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Ключові кадри для анімації трясіння */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+
+.input__wallet ::placeholder {
+    color: #555;
+    font-family: MuseoModerno;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+}
+
+.send__wallet {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    height: 44px;
+
+}
+
+.send__wallet p {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-right: 19px;
+}
+
+
+.wallet {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    display: flex;
+    align-items: center;
+    padding: 9.5px 65px 9px 13px;
+    margin-top: 20px;
+    margin-bottom: 20px ;
+}
+.wallet p {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-left: 27px;
+}
+
+.pool__first {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    padding: 11.5px 0px;
+}
+
+
+
+
+
+
+
+
+.back__wallet-btn {
+    margin-top: 20px;
+    display: flex;  
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    padding: 6px 76.5px;
+}
+
+.back__wallet-btn p {
+    margin-left: 23px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Чорний екран для ефекту затухання */
+.fade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 9999;
+    pointer-events: none; /* Забороняє взаємодію з overlay */
+}
+
+.fade-overlay.active {
+    opacity: 1;
+}
+
