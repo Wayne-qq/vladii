@@ -22,8 +22,8 @@ const userRef = doc(db, "users", telegramUserId);
 
 // Масив завдань та посилань
 const tasks = [
-  { name: "Instagram", points: 200, url: "https://www.instagram.com/" },
-  { name: "Telegram", points: 200, url: "https://t.me/" },
+  { name: "Instagram", points: 200, url: "./https://www.instagram.com/" },
+  { name: "Telegram", points: 200, url: "./https://t.me/" },
   { name: "Invite 1 friend", points: 200, isFriendTask: true },
   { name: "Invite 5 friend", points: 200, isFriendTask: true }
 ];
