@@ -47,7 +47,9 @@
 }
 
 .username {
-    margin-top: 33px;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+
     color: #FFF;
     text-align: center;
     font-family: Montserrat;
@@ -55,60 +57,96 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-
-    border-radius: 1px;
-    border: 1px solid #FFF;
-    padding: 14px 49px;
+    padding: 14px 0px;
+    width: 241px;
+    margin-top: 72px;
 }
 
 
-.balance {
-    margin-top: 58px;
+ .balance {
     color: #FFF;
-    font-family: MuseoModerno;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    text-transform: uppercase;
-}
-
-.balance span {
-    text-transform: lowercase;
-    color: #FF44D3;
     font-family: MuseoModerno;
     font-size: 20px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    text-transform: uppercase;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    width: 241px;
+    text-align: center;
+    padding: 6px 0px;
+    margin-top: 24px;
+    transition: transform 0.1s; 
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+
+  .shake {
+    animation: shake 0.3s; 
+  }
+
+.balance span {
+    color: #FF44D3;
+
 }
 
-.home__slad {
-    margin-top: 50px;
-    width: 123px;
+
+
+.puffers__lvl,
+.fuuz__lvl,
+.zing__lvl {
+    margin-top: 24px;
+    width: 241px;
+    height: 224px;
 }
 
-.lvl {
-    margin-top: 61px;
-    color: #FFF;
+
+.home__lvl-btn {
+    margin-top: 24px;
+    width: 241px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.home__lvl-btn button {
+    fill: #000;
+    border: 1px solid #FFF;
+    background-color: #000;
+    width: 115px;
+    height: 44px;
+    flex-shrink: 0;
+}
+.sladi__name-line {
+    display: flex;
+    align-items: center;
+    margin-left: 120px;
+    margin-top: -5px;
+}
+.sladi__name {
+    color: #FF44D3;
     font-family: MuseoModerno;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     text-transform: uppercase;
-
-    border-radius: 29px;
-    background: #000;
-    box-shadow: 0px 0px 5px 0px #FFF;
-    width: 130px;
-    padding: 5px 0px;
-    text-align: center;
+    margin-left: 7px;
 }
 
-.home__play {
-    margin-top: 80px;
-    width: 198px;
+
+
+.home__play,
+.home__buy-fuuz,
+.home__buy-zing {
+    margin-top: 24px;
+    width: 241px;
     color: #FFF;
     font-family: MuseoModerno;
     font-size: 20px;
@@ -124,9 +162,25 @@
     box-shadow: 0px 4px 0px 0px #FF44D3;
 }
 
+.home__buy-fuuz {
+    box-shadow: 0px 4px 0px 0px #FFBC37;
+}
+
+.home__buy-zing {
+    box-shadow: 0px 4px 0px 0px #FF9DE8;
+}
+
 .home__play span {
     color: #FF44D3;
 }
+.home__buy-fuuz span {
+    color: #FFBC37;
+}
+
+.home__buy-zing span {
+    color: #FF9DE8;
+}
+
 
 
 
@@ -434,13 +488,38 @@
     text-transform: uppercase;
 }
 
-
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+  
+  .check__icon.shake {
+    animation: shake 0.5s;
+  }
+  
 
 .main__friend {
     background-color: #000;
     height: 100vh;
 }
 
+
+/* Анімація для трясіння вправо-вліво */
+@keyframes shakeHorizontally {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+  }
+  
+  .shake-horizontally {
+    animation: shakeHorizontally 1s ease-in-out;
+  }
+  
 
 .friend__block {
     margin-top: 85px;

@@ -17,30 +17,170 @@ if (tg && tg.initDataUnsafe?.user?.id) {
   console.log('Telegram ID не знайдено, використовуємо значення "not defined"');
 }
 
-// Створюємо посилання на користувача в Firestore
+// Firebase посилання на користувача в Firestore
 const userRef = doc(db, "users", telegramUserId);
 
-// Перевірка, чи є користувач в базі
+// Масив завдань та посилань
+const tasks = [
+  { name: "Instagram", points: 200, url: "https://www.instagram.com/" },
+  { name: "Telegram", points: 200, url: "https://t.me/" },
+  { name: "Invite 1 friend", points: 200, isFriendTask: true },
+  { name: "Invite 5 friend", points: 200, isFriendTask: true }
+];
+
+// Перевіряємо наявність користувача у базі та ініціалізуємо його дані
 getDoc(userRef).then((docSnapshot) => {
   if (!docSnapshot.exists()) {
-    // Якщо користувач не знайдений, записуємо нового користувача з дефолтними значеннями
     setDoc(userRef, {
       telegramId: telegramUserId,
       points: 0,
+      tasksCompleted: [],
+      friends: 0,
       tickets: 10
     }).then(() => {
       updateTicketDisplay(10); // Оновлюємо відображення тікетів
       updateBalanceDisplay(0); // Оновлюємо відображення балансу
     }).catch((error) => {
-      console.error("Error saving user data:", error);
+      console.error("Помилка при збереженні даних користувача:", error);
     });
   } else {
+    const completedTasks = docSnapshot.data().tasksCompleted || [];
     const points = docSnapshot.data().points || 0;
     const tickets = docSnapshot.data().tickets || 0;
+
     updateTicketDisplay(tickets); // Оновлюємо відображення тікетів
     updateBalanceDisplay(points); // Оновлюємо відображення балансу
+
+    updateTaskIcons(completedTasks); // Оновлюємо статус виконаних завдань
   }
 });
+
+// Обробка натискання на завдання
+document.querySelectorAll('.task__btn').forEach((taskBtn, index) => {
+  taskBtn.addEventListener('click', () => handleTaskClick(tasks[index]));
+});
+
+// Функція для обробки натискання на завдання
+function handleTaskClick(task) {
+    getDoc(userRef).then((docSnapshot) => {
+      const userData = docSnapshot.data();
+      const completedTasks = userData.tasksCompleted || [];
+  
+      if (completedTasks.includes(task.name)) {
+        shakeCheckIcon(task.name);
+        return;
+      }
+  
+      if (task.isFriendTask) {
+        checkFriendTaskCompletion(task, userData.friends || 0);
+      } else {
+        // Перехід за посиланням для інших завдань
+        window.location.href = task.url;
+  
+        // Додаємо поінти та оновлюємо завдання в базі даних
+        const newPoints = (userData.points || 0) + task.points;
+        completedTasks.push(task.name);
+  
+        updateDoc(userRef, {
+          points: newPoints,
+          tasksCompleted: completedTasks
+        }).then(() => {
+          updateBalanceDisplay(newPoints);
+  
+          // Якщо це завдання не є friend-завданням, то іконка з'являється через 7 секунд
+          if (!task.isFriendTask) {
+            setTimeout(() => {
+              updateTaskIcon(task.name);
+            }, 7000); // Затримка 7 секунд
+          } else {
+            updateTaskIcon(task.name); // Для friend-завдань іконка з'являється одразу
+          }
+        }).catch((error) => {
+          console.error("Помилка при оновленні даних:", error);
+        });
+      }
+    });
+  }
+  
+
+// Функція для завдань типу friend
+function checkFriendTaskCompletion(task, currentFriends) {
+    if ((task.name === "Invite 1 friend" && currentFriends >= 1) || 
+        (task.name === "Invite 5 friend" && currentFriends >= 5)) {
+      completeTask(task);
+    } else {
+      // Замість alert, трясемо елемент з класом 'task__friend'
+      shakeFriendTask();
+    }
+  }
+  
+  // Функція для анімації "тряски" елементів з класом 'task__friend'
+  function shakeFriendTask() {
+    const friendTasks = document.querySelectorAll('.task__friend');
+    friendTasks.forEach(task => {
+      task.classList.add('shake-horizontally');
+      setTimeout(() => task.classList.remove('shake-horizontally'), 1000); // Анімація трясіння протягом 1 секунди
+    });
+  }
+
+// Функція для оновлення статусу виконаного завдання
+function completeTask(task) {
+  getDoc(userRef).then((docSnapshot) => {
+    const userData = docSnapshot.data();
+    const newPoints = (userData.points || 0) + task.points;
+    const completedTasks = [...userData.tasksCompleted, task.name];
+
+    updateDoc(userRef, {
+      points: newPoints,
+      tasksCompleted: completedTasks
+    }).then(() => {
+      updateBalanceDisplay(newPoints);
+      updateTaskIcon(task.name);
+    }).catch((error) => {
+      console.error("Помилка при оновленні даних:", error);
+    });
+  });
+}
+
+// Функція для оновлення іконки завдання після виконання
+function updateTaskIcon(taskName) {
+    document.querySelectorAll('.task__btn').forEach(taskBtn => {
+      const name = taskBtn.querySelector('.task__name').innerText;
+      if (name === taskName) {
+        const crossIcon = taskBtn.querySelector('.tsask__icon img:first-child');
+        const checkIcon = taskBtn.querySelector('.tsask__icon img:last-child');
+        
+        crossIcon.style.display = 'none';
+        checkIcon.style.display = 'block';
+      }
+    });
+  }
+
+// Функція для завантаження статусу іконок завдань після оновлення сторінки
+function updateTaskIcons(completedTasks) {
+  document.querySelectorAll('.task__btn').forEach(taskBtn => {
+    const name = taskBtn.querySelector('.task__name').innerText;
+    if (completedTasks.includes(name)) {
+      const crossIcon = taskBtn.querySelector('.tsask__icon img:first-child');
+      const checkIcon = taskBtn.querySelector('.tsask__icon img:last-child');
+      
+      crossIcon.style.display = 'none';
+      checkIcon.style.display = 'block';
+    }
+  });
+}
+
+// Функція для анімації "тряски" іконки check__icon
+function shakeCheckIcon(taskName) {
+  document.querySelectorAll('.task__btn').forEach(taskBtn => {
+    const name = taskBtn.querySelector('.task__name').innerText;
+    if (name === taskName) {
+      const checkIcon = taskBtn.querySelector('.check__icon');
+      checkIcon.classList.add('shake');
+      setTimeout(() => checkIcon.classList.remove('shake'), 500);
+    }
+  });
+}
 
 // Функція для оновлення відображення тікетів
 function updateTicketDisplay(tickets) {
@@ -81,6 +221,14 @@ document.querySelector('.start').addEventListener('click', function() {
     }
   });
 });
+
+
+
+
+
+
+
+
 // Функція для початку гри
 function startGame() {
     const ticket = document.querySelector('.main__ticket');
@@ -159,7 +307,7 @@ function startGame() {
         const points = ((105 - randomSize) / 75) * basePoints;
         score += points;
         scoreDisplay.innerHTML = `${Math.round(score)}<span>sladi</span>`;
-        navigator.vibrate(50);
+        navigator.vibrate(30);
         img.remove();
       });
   
@@ -311,88 +459,54 @@ const playButton = document.querySelector('.home__play');
 
 
 
+  // JavaScript code
+  const images = document.querySelectorAll('.puffers__lvl, .fuuz__lvl, .zing__lvl'); // Тільки ці три зображення
+  const startButton = document.querySelector('.home__play'); // Кнопка Play
+  const buyFuuzButton = document.querySelector('.home__buy-fuuz'); // Кнопка Buy Fuuz
+  const buyZingButton = document.querySelector('.home__buy-zing'); // Кнопка Buy Zing
+  const balance = document.querySelector('.balance'); // Баланс елемент
+  let currentIndex = 0; // Початковий індекс (зображення puffers__lvl)
 
+  function showImage(index) {
+    images.forEach((img, i) => {
+      img.style.display = i === index ? 'block' : 'none'; // Показуємо тільки потрібне зображення
+    });
 
+    // Відображаємо/приховуємо кнопки залежно від вибраного зображення
+    if (index === 1) { // Якщо вибрано fuuz__lvl
+      startButton.style.display = 'none';
+      buyFuuzButton.style.display = 'block';
+      buyZingButton.style.display = 'none';
+    } else if (index === 2) { // Якщо вибрано zing__lvl
+      startButton.style.display = 'none';
+      buyFuuzButton.style.display = 'none';
+      buyZingButton.style.display = 'block';
+    } else { // Якщо вибрано puffers__lvl
+      startButton.style.display = 'block';
+      buyFuuzButton.style.display = 'none';
+      buyZingButton.style.display = 'none';
+    }
+  }
 
+  // Додаємо подію для кнопок купівлі
+  buyFuuzButton.addEventListener('click', () => shakeBalance());
+  buyZingButton.addEventListener('click', () => shakeBalance());
 
-//   document.querySelector('.start').addEventListener('click', function() {
-//     const ticket = document.querySelector('.main__ticket');
-//     const game = document.querySelector('.main__game');
-//     const gameBlock = document.querySelector('.game__block');
-//     const scoreDisplay = document.querySelector('.score');
-//     const timerDisplay = document.querySelector('.seconds');
-//     const scoreEndDisplay = document.querySelector('.score__end');
-    
-//     let score = 0;
-//     let timeLeft = 30;
-//     let spawnInterval;
+  // Функція для трясіння елементу .balance
+  function shakeBalance() {
+    balance.classList.add('shake'); // Додаємо клас для активації анімації
+    setTimeout(() => balance.classList.remove('shake'), 300); // Видаляємо клас після завершення анімації
+    navigator.vibrate(30);
+  }
 
-//     const maxScore = 500; // Максимальные очки за игру
-//     const maxClicks = 30; // Примерное количество кликов за 30 секунд
-//     const basePoints = maxScore / maxClicks; // Среднее количество очков за один клик
-    
-//     // Переключаем видимость блоков
-//     ticket.style.display = 'none';
-//     game.style.display = 'block';
+  document.querySelector('.right__btn').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length; // Збільшуємо індекс, циклічно повертаючись до нуля
+    showImage(currentIndex);
+  });
 
-//     // Обновление таймера
-//     const timerInterval = setInterval(() => {
-//       timeLeft--;
-//       timerDisplay.textContent = `${timeLeft}s`;
+  document.querySelector('.left__btn').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length; // Зменшуємо індекс, циклічно повертаючись до останнього
+    showImage(currentIndex);
+  });
 
-//       if (timeLeft <= 0) {
-//         clearInterval(timerInterval);
-//         clearInterval(spawnInterval);
-
-//         // Показываем итоговый результат
-//         game.style.display = 'none';
-//         ticket.style.display = 'block';
-//         scoreEndDisplay.style.display = 'block';
-//         scoreEndDisplay.innerHTML = `+ ${Math.round(score)} <span>sladi</span>`;
-//       }
-//     }, 1000);
-
-//     // Функция спавна изображений
-//     spawnInterval = setInterval(() => {
-//       const img = document.createElement('img');
-//       img.src = './img/slad-lvl-1.png';
-//       img.alt = '';
-//       img.classList.add('sladi__img');
-
-//       // Устанавливаем случайный размер от 30px до 105px
-//       const randomSize = Math.floor(Math.random() * (105 - 30 + 1)) + 30;
-//       img.style.width = randomSize + 'px';
-//       img.style.height = randomSize + 'px';
-
-//       // Устанавливаем случайное позиционирование
-//       const maxX = gameBlock.clientWidth - randomSize;
-//       const maxY = gameBlock.clientHeight - randomSize;
-//       img.style.left = Math.floor(Math.random() * maxX) + 'px';
-//       img.style.top = Math.floor(Math.random() * maxY) + 'px';
-
-//       // Добавляем изображение в блок
-//       gameBlock.appendChild(img);
-
-//       // Устанавливаем событие на клик, чтобы изображение исчезло и добавились очки
-//       img.addEventListener('click', () => {
-//         // Расчет очков пропорционально размеру
-//         const points = ((105 - randomSize) / 75) * basePoints;
-//         score += points;
-//         scoreDisplay.innerHTML = `${Math.round(score)}<span>sladi</span>`;
-//         img.remove();
-//       });
-
-//       // Плавное исчезновение через 2 секунды, если на изображение не нажали
-//       setTimeout(() => {
-//         img.style.opacity = '0';
-//         setTimeout(() => {
-//           img.remove();
-//         }, 2000);
-//       }, 2000);
-//     }, 400);
-
-//     // Останавливаем интервал спавна по завершению игры
-//     setTimeout(() => {
-//       clearInterval(spawnInterval);
-//     }, 30000); // Игра длится 30 секунд
-//   });
+  showImage(currentIndex); // Показуємо початкове зображення
