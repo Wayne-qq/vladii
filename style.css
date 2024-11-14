@@ -469,7 +469,7 @@
 
 
 .back__task-btn {
-    margin-top: 100px;
+    margin-top: 60px;
     padding: 6px 76px;
     display: flex;
     align-items: center;
@@ -821,3 +821,47 @@
 .fade-overlay.active {
     opacity: 1;
 }
+
+
+
+@media (max-height: 690px) {
+    .username {
+        margin-top: 30px;
+
+    }
+
+    .friend__block {
+        margin-top: 30px;
+    }
+  }
+
+
+  @media (max-height: 710px) {
+    .back__task-btn {
+        margin-top: 0px;
+    }
+
+    .task__block {
+        margin-top: 50px;
+    }
+  }
+
+
+  @media (max-height: 640px) {
+    .score__start {
+        margin-top: 60px;
+    }
+    .start {
+        margin-top: 130px;
+    }
+
+    .ticket__block {
+        margin-top: 190px;
+    }
+    .score__end {
+        margin-top: 60px;
+    }
+    .connect__block {
+        margin-top: 50px;
+    }
+  }

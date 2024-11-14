@@ -92,7 +92,7 @@ function validateWalletAddress(walletAddress) {
 
     walletAddress = walletAddress.trim();
     
-    if (walletAddress.length < 48 || walletAddress.length > 60) {
+    if (walletAddress.length < 48 || walletAddress.length > 56) {
       const inputElement = document.querySelector(".input__wallet");
       inputElement.classList.add("shakingInput");
       
@@ -353,7 +353,7 @@ function updateBalanceDisplay(points) {
 function shakeTickets() {
   const ticketDisplay = document.querySelector('.ticket');
   ticketDisplay.classList.add('shake');
-  navigator.vibrate(100);
+  navigator.vibrate(50);
   setTimeout(() => ticketDisplay.classList.remove('shake'), 500);
 }
 
@@ -484,7 +484,7 @@ function startGame() {
     scoreStartDisplay.innerHTML = "You will receive the tickets in 1 day";
     
     ticketDisplay.classList.add('shake');
-    navigator.vibrate(100);
+    navigator.vibrate(50);
     setTimeout(() => ticketDisplay.classList.remove('shake'), 500);
     
     setTimeout(() => {
@@ -552,7 +552,7 @@ const homeMain = document.querySelector('.main__home');
 
 backButton.addEventListener('click', () => {
     switchPageWithFade(ticketMain, homeMain);
-    navigator.vibrate(100);
+    navigator.vibrate(20);
     showNav();
 });
 
@@ -576,7 +576,7 @@ const backButtonTask = document.querySelector('.back__task-btn');
 
 backButtonTask.addEventListener('click', () => {
     switchPageWithFade(taskMain, homeMain);
-    navigator.vibrate(100);
+    navigator.vibrate(20);
 
     showNav();
 });
@@ -585,7 +585,7 @@ const friendBackActionButton = document.querySelector('.back__friend-btn');
 
 friendBackActionButton.addEventListener('click', () => {
     switchPageWithFade(friendMain, homeMain);
-    navigator.vibrate(100);
+    navigator.vibrate(20);
     showNav();
 });
 
@@ -616,7 +616,7 @@ btnWallet.addEventListener('click', () => {
 const backWalletBtn = document.querySelector('.back__wallet-btn');
 
 backWalletBtn.addEventListener('click', () => {
-    navigator.vibrate(100);
+    navigator.vibrate(20);
     switchPageWithFade(mainConnectWallet, taskMain);
 });
 
@@ -730,7 +730,20 @@ document.addEventListener('DOMContentLoaded', displayTelegramUsername);
 document.querySelector('.invite__btn').addEventListener('click', () => {
     const id = telegramUserId;
     const RefLink = `https://t.me/SladiGameBot?start=${id}`;
-    const text = 'Join to SladiGame!!!';
+    const text = '🎀Join to SladiGame!🎀';
 
     window.open(`https://t.me/share/url?url=${encodeURIComponent(RefLink)}&text=${encodeURIComponent(text)}`, "_blank");
 });
+
+
+
+function openTonWallet() {
+  const amount = 0.01; // Сума оплати в TON
+  const receiverAddress = 'UQC2S11L-7Xqqc2kNl8ZLOXy4nqAPpbmEBB5V9WUXn7tNEPL'; // Ваша адреса гаманця TON, куди надійде платіж
+
+  // Створення посилання для оплати
+  const tonPayUrl = `https://tonhub.com/transfer/${receiverAddress}?amount=${amount * 1e9}&text=Purchase+Zing`;
+
+  // Відкриття посилання в новому вікні
+  window.open(tonPayUrl, '_blank');
+}
