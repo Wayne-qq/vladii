@@ -1,0 +1,881 @@
+.main__preloader {
+    background-color: #000;
+    height: 100vh;
+}
+
+.container {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.main__preloader img {
+    margin-top: 316px;
+    margin-bottom: 123px;
+}
+
+
+.progress-bar {
+    width: 157px;
+    height: 6px;
+    background-color: #373737;
+    overflow: hidden;
+}
+.progress {
+    width: 0%;
+    height: 100%;
+    background-color: #FF44D3;
+    animation: load 5s linear forwards; 
+}
+
+@keyframes load {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+
+
+.main__home {
+    background-color: #000;
+    height: 100vh;
+}
+
+.username {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 14px 0px;
+    width: 70%;
+    margin-top: 72px;
+}
+
+
+
+ .balance {
+    margin-top: 24px;
+    width: 70%;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    text-align: center;
+    padding: 6px 0px;
+    transition: transform 0.5s; 
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+
+  .shake {
+    animation: shake 0.3s; 
+  }
+
+.balance span {
+    color: #FF44D3;
+
+}
+
+
+
+.puffers__lvl,
+.fuuz__lvl,
+.zing__lvl {
+    margin-top: 24px;
+    width: 70%;
+    height: 70%;
+
+}
+
+
+.home__lvl-btn {
+    margin-top: 24px;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.home__lvl-btn button {
+    fill: #000;
+    border: 1px solid #FFF;
+    background-color: #000;
+    width: 115px;
+    height: 44px;
+    flex-shrink: 0;
+}
+.sladi__name-line {
+    display: flex;
+    align-items: center;
+    margin-left: 120px;
+    margin-top: -5px;
+}
+.sladi__name {
+    color: #FF44D3;
+    font-family: MuseoModerno;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-left: 7px;
+}
+
+
+
+.home__play,
+.home__buy-fuuz,
+.home__buy-zing {
+    margin-top: 24px;
+    width: 70%;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    padding: 6px 0px;
+
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 4px 0px 0px #FF44D3;
+}
+
+.home__buy-fuuz {
+    box-shadow: 0px 4px 0px 0px #FFBC37;
+}
+
+.home__buy-zing {
+    box-shadow: 0px 4px 0px 0px #FF9DE8;
+}
+
+.home__play span {
+    color: #FF44D3;
+}
+.home__buy-fuuz span {
+    color: #FFBC37;
+}
+
+.home__buy-zing span {
+    color: #FF9DE8;
+}
+
+
+
+
+.menu {
+    width: 214px;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .line {
+    width: 26px;
+    height: 1.5px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #FF44D3;
+    margin-top: 5px;
+  }
+  
+
+
+
+
+.main__ticket {
+    background-color: #000;
+    height: 100vh;
+}
+
+
+
+.start {
+    width: 198px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 4px 0px 0px #FF44D3;
+    margin-top: 180px;
+    padding: 5px 0px;
+}
+
+
+.ticket__block {
+    margin-top: 222px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ticket {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-top: -130px;
+}
+
+
+.ticket.shake {
+    animation: shake 0.5s;
+    animation-iteration-count: 1;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+  }
+  
+
+
+.score__end {
+    margin-top: 80px;
+    color: #FFF;
+    text-shadow: 0px 4px 41.9px #FFF;
+    font-family: MuseoModerno;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    position: absolute;
+}
+
+.score__start {
+    margin-top: 80px;
+    color: #FFF;
+    text-shadow: 0px 4px 41.9px #FFF;
+    font-family: MuseoModerno;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    position: absolute;
+
+}
+
+.score__start span {
+    color: #FF44D3;
+
+}
+
+.score__end span{
+    color: #FF44D3;
+    text-shadow: 0px 4px 41.9px #FFF;
+    font-family: MuseoModerno;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+
+.main__game {
+    background-color: #000;
+    height: 100vh;
+}
+
+.progress__bar {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    display: flex;
+    align-items: center;
+    width: 257px;
+    margin-top: 25px;
+    padding: 13px 25px;
+}
+
+.score {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-right: auto;
+}
+
+.score span {
+    color: #FF44D3;
+}
+
+.seconds {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+.game__block {
+    height: 85vh;
+    width: 99%;
+    position: relative;
+    overflow: hidden; 
+  }
+  
+
+  .sladi__img {
+    position: absolute; 
+    transition: opacity 2s; 
+  }
+
+
+  .back {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    width: 198px;
+    padding: 6px 73px 6px 45px;
+  }
+
+
+  .arrow__back {
+    margin-right: 8px;
+  }
+
+
+
+.main__task {
+  background-color: #000;
+}
+
+.task__block {
+  display: flex;
+  flex-direction: column;
+  width: 267px;
+  margin-top: 85px;
+}
+
+.page__name {
+  text-transform: uppercase;
+  color: #FFF;
+  align-items: self-start;
+  font-family: Montserrat;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 30px;
+}
+
+.task__btn {
+    border: 1px solid #333;
+    background: #000;
+    box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    padding: 11px 20.5px 11px 20.5px;
+    margin-bottom: 14px;
+}
+
+.start__task-block {
+    display: flex;
+    flex-direction: column;
+    align-self: self-start;
+    margin-right: auto;
+}
+
+.task__name {
+  color: #FFF;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.task__price {
+    margin-top: 4px;
+    color: #FFF;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+}
+
+.task__price span {
+    color: #FF44D3;
+
+}
+
+.task__our {
+    color: #3c3c3c;
+    text-align: left;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.task__other {
+    color: #3c3c3c;
+    text-align: left;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+
+.back__task-btn {
+    margin-top: 60px;
+    padding: 6px 76px;
+    display: flex;
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+    position: fixed;
+    bottom: 30px;
+}
+
+.last__task-btn {
+    margin-bottom: 90px;
+}
+
+.back__task-btn p {
+    margin-left: 23px;
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+  
+  .shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+
+.main__friend {
+    background-color: #000;
+    height: 100vh;
+}
+
+
+
+.friend__block {
+    margin-top: 85px;
+    display: flex;
+    flex-direction: column;
+}
+
+.friend__name {
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.friend__info-block {
+    margin-top: 29px;
+    padding: 35px 29.5px 22px 29.5px;
+    border: 1px solid #333;
+    background: #000;
+    box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 207px;
+}
+
+
+.friend__info-block  p {
+    color: #FFF;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.friend__info-block  p span {
+    color: #FF44D3;
+}
+
+.invite__btn {
+    padding: 8px 28px;
+    margin-top: 69px;
+    width: 209px;
+    border: 1px solid #FF44D3;
+    background: #000;
+    box-shadow: 0px 0px 6.6px 0px #FF44D3;
+
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+}
+
+.friend__num {
+    margin-top: 16px;
+    padding: 11px 0px;
+    border: 1px solid #333;
+    background: #000;
+    box-shadow: 0px 0px 4px 0px rgba(255, 255, 255, 0.25);
+
+    color: #FFF;
+    text-align: center;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+
+.back__friend-btn {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+    padding: 6px 76px;
+}
+
+
+
+.back__friend-btn p{
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-left: 23px;
+    
+}
+
+
+.main__connect-wallet {
+    background-color: #000;
+    height: 100vh;
+}
+
+.connect__block {
+    margin-top: 85px;
+    display: flex;
+    flex-direction: column;
+}
+
+.coonect__name,
+.wallet__name {
+    color: #FFF;
+    text-align: left;
+    font-family: Montserrat;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.slad__ton {
+    margin-top: 32px;
+    width: 267px;
+    height: 231px;
+    border: 1.5px solid #fff;
+}
+
+.input__wallet {
+  margin-top: 20px;
+  border-radius: 1px;
+  border: 1.5px solid #FFF;
+  background: #000;
+  width: 247px;
+  color: #FFF;
+  font-family: MuseoModerno;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  outline: none;
+  height: 44px;
+  padding-left: 20px;
+}
+
+.shakingInput {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  50% { transform: translateX(10px); }
+  75% { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+
+.input__wallet ::placeholder {
+    color: #555;
+    font-family: MuseoModerno;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+}
+
+.send__wallet {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    height: 44px;
+
+}
+
+.send__wallet p {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-right: 19px;
+}
+
+
+.wallet {
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    display: flex;
+    align-items: center;
+    padding: 9.5px 65px 9px 13px;
+    margin-top: 20px;
+    margin-bottom: 20px ;
+}
+.wallet p {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-left: 27px;
+}
+
+.pool__first {
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    padding: 11.5px 0px;
+}
+
+
+
+
+
+
+
+
+.back__wallet-btn {
+    margin-top: 20px;
+    display: flex;  
+    align-items: center;
+    border-radius: 1px;
+    border: 1px solid #FFF;
+    background: #000;
+    box-shadow: 0px 7px 0px 0px #FF44D3;
+
+    color: #FFF;
+    font-family: MuseoModerno;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+    padding: 6px 76.5px;
+}
+
+.back__wallet-btn p {
+    margin-left: 23px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Чорний екран для ефекту затухання */
+.fade-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 9999;
+    pointer-events: none; /* Забороняє взаємодію з overlay */
+}
+
+.fade-overlay.active {
+    opacity: 1;
+}
+
+
+
+@media (max-height: 690px) {
+    .username {
+        margin-top: 30px;
+
+    }
+
+    .friend__block {
+        margin-top: 30px;
+    }
+  }
+
+
+  @media (max-height: 710px) {
+    .back__task-btn {
+        margin-top: 0px;
+    }
+
+    .task__block {
+        margin-top: 50px;
+    }
+  }
+
+
+  @media (max-height: 640px) {
+    .score__start {
+        margin-top: 60px;
+    }
+    .start {
+        margin-top: 130px;
+    }
+
+    .ticket__block {
+        margin-top: 190px;
+    }
+    .score__end {
+        margin-top: 60px;
+    }
+    .connect__block {
+        margin-top: 50px;
+    }
+  }

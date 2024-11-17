@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="./hjndnfnngenkn34nk3n4kn3jb4b34jb.css">
+    <link rel="stylesheet" href="./mm4nn3n4n5nk4nn54nnkn5.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Sladi Game</title>
 </head>
 <body>
-    <main class="main__preloader" style="display: block">
+    <main class="main__preloader" style="display: none">
         <div class="container">
             <img src="./img/logo.svg" alt="">
             
@@ -25,7 +25,7 @@
     <main class="main__home" style="display: none;">
         <div class="container">
             <p class="username">Username_user</p>
-            <p class="balance">1 302 <span>sladi</span></p> 
+            <p class="balance">0 <span>sladi</span></p> 
             <img class="puffers__lvl" src="./img/Puffers.svg" style="display: block;" alt="">
             <img class="fuuz__lvl" src="./img/Fuuz.svg" style="display: none;" alt="">
             <img class="zing__lvl" src="./img/Zing.svg" style="display: none;" alt="">
@@ -35,7 +35,7 @@
             </div>
             <button style="display: block;" class="home__play">sladi <span>play</span></button>
             <button style="display: none;" class="home__buy-fuuz">Buy <span>Fuuz</span></button>
-            <button onclick="openTonWallet()" style="display: none;" class="home__buy-zing">Buy <span>Zing</span></button>
+            <button style="display: none;" class="home__buy-zing">Buy <span>Zing</span></button>
         </div>
     </main>
 
@@ -62,7 +62,7 @@
     <main class="main__game" style="display: none;">
       <div class="container">
         <div class="progress__bar">
-          <p class="score"><span>sladi</span></p>
+          <p class="score">0<span>sladi</span></p>
           <p class="seconds">29s</p>
         </div>
         <div class="game__block">
@@ -74,63 +74,105 @@
       <div class="container">
         <div class="task__block">
           <p class="page__name">Task</p>
+          <p class="task__our">
+            Our tasks
+          </p>
 
-          <button class="task__btn">
-            <div class="start__task-block">
-              <p class="task__name">Instagram</p>
-              <p class="task__price">+ 200 <span>sladi</span></p>
-            </div>
-            <div class="tsask__icon">
-              <img src="./img/cross.svg" alt="" style="display: block;">
-              <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
-            </div>
-          </button>
-
-          <button class="task__btn">
-            <div class="start__task-block">
-              <p class="task__name">Telegram</p>
-              <p class="task__price">+ 1000 <span>sladi</span></p>
-            </div>
-            <div class="tsask__icon">
-              <img src="./img/cross.svg" alt="" style="display: block;">
-              <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
-            </div>
-          </button>
-
-          <button class="task__btn task__friend">
-            <div class="start__task-block">
-              <p class="task__name">Invite 1 friend</p>
-              <p class="task__price">+ 500 <span>sladi</span></p>
-            </div>
-            <div class="tsask__icon">
-              <img src="./img/cross.svg" alt="" style="display: block;">
-              <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
-            </div>
-          </button>
-
-          <button class="task__btn task__friend">
-            <div class="start__task-block">
-              <p class="task__name">Invite 5 friend</p>
-              <p class="task__price">+ 5000 <span>sladi</span></p>
-            </div>
-            <div class="tsask__icon">
-              <img src="./img/cross.svg" alt="" style="display: block;">
-              <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
-            </div>
-          </button>
-
-          <button id="btn__wallet"  class="task__btn task__friend">
-            <div class="start__task-block">
-              <p class="task__name">Connect wallet</p>
-              <p class="task__price">+ 1000 <span>sladi</span></p>
-            </div>
-            <div class="tsask__icon">
-              <img id="wallet__cross" src="./img/cross.svg" alt="" style="display: block;">
-              <img id="wallet__check" class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
-            </div>
-          </button>
+      <!-- Завдання для переходу за посиланням -->
+      <button class="task__btn task__link" data-name="telegram" data-task="link" data-reward="5000" data-url="https://some-link.com">
+        <div class="start__task-block">
+          <p class="task__name">Telegram</p>
+          <p class="task__price">+ 5000 <span>sladi</span></p>
         </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
 
+      <!-- Завдання для переходу за посиланням -->
+      <button class="task__btn task__link" data-name="wallet" data-task="wallet" data-reward="3000">
+        <div class="start__task-block">
+          <p class="task__name">Wallet</p>
+          <p class="task__price">+ 1000 <span>sladi</span></p>
+        </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
+
+      <!-- Завдання для запрошення 1 друга -->
+      <button class="task__btn task__friend" data-name="friend" data-task="friend" data-reward="500" data-friends="1">
+        <div class="start__task-block">
+          <p class="task__name">Invite 1 friend</p>
+          <p class="task__price">+ 500 <span>sladi</span></p>
+        </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
+
+      <!-- Завдання для запрошення 5 друзів -->
+      <button class="task__btn task__friend" data-name="fivefriend" data-task="friend" data-reward="5000" data-friends="5">
+        <div class="start__task-block">
+          <p class="task__name">Invite 5 friends</p>
+          <p class="task__price">+ 5000 <span>sladi</span></p>
+        </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
+
+
+      <p class="task__other">Other tasks</p>
+
+      <!-- Інші завдання -->
+      <button class="task__btn" data-name="blum" data-task="link" data-link="https://someotherlink.com" data-reward="500">
+        <div class="start__task-block">
+          <p class="task__name">Join Blum</p>
+          <p class="task__price">+ 1000 <span>sladi</span></p>
+        </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
+
+      <button class="task__btn" data-name="Paws" data-task="link" data-link="https://anotherlink.com" data-reward="500">
+        <div class="start__task-block">
+          <p class="task__name">Join Paws</p>
+          <p class="task__price">+ 1000 <span>sladi</span></p>
+        </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
+
+      <button class="task__btn" data-name="moonbix" data-task="link" data-link="https://yetanotherlink.com" data-reward="500">
+        <div class="start__task-block">
+          <p class="task__name">Join MoonBix</p>
+          <p class="task__price">+ 1000 <span>sladi</span></p>
+        </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
+
+      <button class="task__btn last__task-btn" data-name="terminal" data-task="link" data-link="https://terminal.com" data-reward="500">
+        <div class="start__task-block">
+          <p class="task__name">Join Terminal</p>
+          <p class="task__price">+ 200 <span>sladi</span></p>
+        </div>
+        <div class="tsask__icon">
+          <img class="cross__icon" src="./img/cross.svg" alt="" style="display: block;">
+          <img class="check__icon" src="./img/check-mark.svg" alt="" style="display: none;">
+        </div>
+      </button>
 
 
         <button class="back__task-btn">
@@ -192,43 +234,19 @@
     <nav class="nav" style="display: none;">
         <ul class="menu">
             <li class="item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 27 26" fill="none">
-                <rect x="2.29272" y="11.9392" width="2" height="14" fill="#CBCBCB"/>
-                <rect x="21.2927" y="11.9392" width="2" height="14" fill="#CBCBCB"/>
-                <rect x="3.29272" y="25.9392" width="2" height="19" transform="rotate(-90 3.29272 25.9392)" fill="#CBCBCB"/>
-                <rect x="3.29272" y="13.9392" width="2" height="19" transform="rotate(-90 3.29272 13.9392)" fill="#CBCBCB"/>
-                <rect x="11.6746" y="1.44214" width="2" height="18.4602" transform="rotate(-45 11.6746 1.44214)" fill="#CBCBCB"/>
-                <rect width="2" height="18.4995" transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 14.4954 1.41431)" fill="#CBCBCB"/>
-              </svg>
-                  <div class="line"></div> <!-- Це додасть лінію під елементом -->
-
+              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 27 26" fill="none">  <rect x="2.29272" y="11.9392" width="2" height="14" fill="#CBCBCB"/>  <rect x="21.2927" y="11.9392" width="2" height="14" fill="#CBCBCB"/>  <rect x="3.29272" y="25.9392" width="2" height="19" transform="rotate(-90 3.29272 25.9392)" fill="#CBCBCB"/>  <rect x="3.29272" y="13.9392" width="2" height="19" transform="rotate(-90 3.29272 13.9392)" fill="#CBCBCB"/>  <rect x="11.6746" y="1.44214" width="2" height="18.4602" transform="rotate(-45 11.6746 1.44214)" fill="#CBCBCB"/>  <rect width="2" height="18.4995" transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 14.4954 1.41431)" fill="#CBCBCB"/></svg>
+                  <div class="line"></div>
             </li>
             <li class="nav__friend-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="23" height="25" viewBox="0 0 23 25" fill="none">
-                <rect x="0.70459" y="25" width="2.27273" height="21.5909" transform="rotate(-90 0.70459 25)" fill="#CBCBCB"/>
-                <rect x="0.70459" y="15.9094" width="2.27273" height="21.5909" transform="rotate(-90 0.70459 15.9094)" fill="#CBCBCB"/>
-                <rect x="0.70459" y="25" width="10.2273" height="2.27273" transform="rotate(-90 0.70459 25)" fill="#CBCBCB"/>
-                <rect x="20.0227" y="25" width="10.2273" height="2.27273" transform="rotate(-90 20.0227 25)" fill="#CBCBCB"/>
-                <rect x="14.3408" y="10.2275" width="10.2273" height="2.27273" transform="rotate(-90 14.3408 10.2275)" fill="#CBCBCB"/>
-                <rect x="6.38647" y="10.2275" width="10.2273" height="2.27273" transform="rotate(-90 6.38647 10.2275)" fill="#CBCBCB"/>
-                <rect x="7.52271" y="2.27271" width="2.27273" height="9.09091" transform="rotate(-90 7.52271 2.27271)" fill="#CBCBCB"/>
-                <rect x="7.52271" y="10.2275" width="2.27273" height="9.09091" transform="rotate(-90 7.52271 10.2275)" fill="#CBCBCB"/>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="23" height="25" viewBox="0 0 23 25" fill="none">  <rect x="0.70459" y="25" width="2.27273" height="21.5909" transform="rotate(-90 0.70459 25)" fill="#CBCBCB"/>  <rect x="0.70459" y="15.9094" width="2.27273" height="21.5909" transform="rotate(-90 0.70459 15.9094)" fill="#CBCBCB"/>  <rect x="0.70459" y="25" width="10.2273" height="2.27273" transform="rotate(-90 0.70459 25)" fill="#CBCBCB"/>  <rect x="20.0227" y="25" width="10.2273" height="2.27273" transform="rotate(-90 20.0227 25)" fill="#CBCBCB"/>  <rect x="14.3408" y="10.2275" width="10.2273" height="2.27273" transform="rotate(-90 14.3408 10.2275)" fill="#CBCBCB"/>  <rect x="6.38647" y="10.2275" width="10.2273" height="2.27273" transform="rotate(-90 6.38647 10.2275)" fill="#CBCBCB"/>  <rect x="7.52271" y="2.27271" width="2.27273" height="9.09091" transform="rotate(-90 7.52271 2.27271)" fill="#CBCBCB"/>  <rect x="7.52271" y="10.2275" width="2.27273" height="9.09091" transform="rotate(-90 7.52271 10.2275)" fill="#CBCBCB"/></svg>
             </li>
             <li class="nav__task-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="23" viewBox="0 0 21 23" fill="none">
-                <rect width="2" height="23" fill="#CBCBCB"/>
-                <rect x="19" width="2" height="23" fill="#CBCBCB"/>
-                <rect y="23" width="2" height="21" transform="rotate(-90 0 23)" fill="#CBCBCB"/>
-                <rect y="2" width="2" height="21" transform="rotate(-90 0 2)" fill="#CBCBCB"/>
-                <rect x="6.95215" y="11.0859" width="5.05913" height="1.63399" transform="rotate(35.6489 6.95215 11.0859)" fill="#CBCBCB"/>
-                <rect x="9.1189" y="14.6572" width="9.41345" height="1.44455" transform="rotate(-54.4299 9.1189 14.6572)" fill="#CBCBCB"/>
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="23" viewBox="0 0 21 23" fill="none">  <rect width="2" height="23" fill="#CBCBCB"/>  <rect x="19" width="2" height="23" fill="#CBCBCB"/>  <rect y="23" width="2" height="21" transform="rotate(-90 0 23)" fill="#CBCBCB"/>  <rect y="2" width="2" height="21" transform="rotate(-90 0 2)" fill="#CBCBCB"/>  <rect x="6.95215" y="11.0859" width="5.05913" height="1.63399" transform="rotate(35.6489 6.95215 11.0859)" fill="#CBCBCB"/>  <rect x="9.1189" y="14.6572" width="9.41345" height="1.44455" transform="rotate(-54.4299 9.1189 14.6572)" fill="#CBCBCB"/></svg>
             </li>
         </ul>
     </nav>
     <script src="./main.js"></script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="./main.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 

@@ -1,3 +1,7 @@
+
+
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
@@ -5,745 +9,295 @@ function _0x43d2(_0x402700,_0x1c8dc5){const _0x5dde45=_0x1646();return _0x43d2=f
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-
+// КОД ДЛЯ ЗАБИ ДАНИХ КОД ДЛЯ ЗАБИ ДАНИХ КОД ДЛЯ ЗАБИ ДАНИХ КОД ДЛЯ ЗАБИ ДАНИХ КОД ДЛЯ ЗАБИ ДАНИХ
 const tg = window.Telegram ? window.Telegram.WebApp : null;
-let telegramUserId = "no id";
-
-if (tg && tg.initDataUnsafe?.user?.id) {
-  telegramUserId = tg.initDataUnsafe.user.id.toString();
-} else {
-  console.log('Telegram ID не знайдено, використовуємо значення "not defined"');
-}
-
+const telegramUserId = tg?.initDataUnsafe?.user?.id || "no id";
 const userRef = doc(db, "users", telegramUserId);
-
-function updateFriendCount(count) {
-    friendNumElement.textContent = `friends: ${count}`;
-}
-
-const currentDate = new Date();
-
-getDoc(userRef).then((docSnapshot) => {
-  if (!docSnapshot.exists()) {
-    setDoc(userRef, {
-      telegramId: telegramUserId,
-      points: 0,
-      tasksCompleted: [],
-      friends: 0,
-      tickets: 10,
-      lastLogin: currentDate.toISOString()
-    }).then(() => {
-      updateTicketDisplay(10);
-      updateBalanceDisplay(0);
-      updateFriendCount(0);
-    }).catch((error) => {
-      console.error("Помилка при збереженні даних користувача:", error);
-    });
-  } else {
-    const data = docSnapshot.data();
-    const lastLogin = new Date(data.lastLogin);
-    const timeDifference = currentDate - lastLogin;
-
-    // Перевіряємо, чи минуло більше 24 годин (24 * 60 * 60 * 1000 мс)
-    if (timeDifference >= 24 * 60 * 60 * 1000) {
-      const newTickets = data.tickets + 15;
-      updateDoc(userRef, {
-        tickets: newTickets,
-        lastLogin: currentDate.toISOString()
-      }).then(() => {
-        updateTicketDisplay(newTickets);
-        console.log("Користувачу нараховано 15 тікетів за повернення через 24 години.");
-      }).catch((error) => {
-        console.error("Помилка при оновленні даних користувача:", error);
-      });
-    } else {
-      updateTicketDisplay(data.tickets);
-    }
-
-    // Оновлюємо інші дані
-    updateBalanceDisplay(data.points || 0);
-    updateFriendCount(data.friends || 0);
-    updateTaskIcons(data.tasksCompleted || []);
-  }
-}).catch((error) => {
-  console.error("Помилка при завантаженні даних користувача:", error);
-});
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function validateWalletAddress(walletAddress) {
-
-    walletAddress = walletAddress.trim();
-    
-    if (walletAddress.length < 48 || walletAddress.length > 56) {
-      const inputElement = document.querySelector(".input__wallet");
-      inputElement.classList.add("shakingInput");
-      
-      setTimeout(() => {
-        inputElement.classList.remove("shakingInput");
-      }, 1000);
-      return false;
-    }
-    return true;
-  }
-  
-  function saveWalletAddress() {
-    let walletAddress = document.querySelector(".input__wallet").value;
-  
-    if (validateWalletAddress(walletAddress)) {
-      document.querySelector(".input__wallet").style.display = "none";
-      document.querySelector(".send__wallet").style.display = "none";
-      document.querySelector(".wallet").style.display = "flex";
-      document.querySelector(".pool__first").style.display = "flex";
-  
-      const formattedWallet = formatWalletAddress(walletAddress);
-      document.querySelector(".wallet__adress").textContent = formattedWallet;
-  
-      document.querySelector(".coonect__name").style.display = "none";
-      document.querySelector(".wallet__name").style.display = "block";
-  
-      document.getElementById("wallet__cross").style.display = "none";
-      document.getElementById("wallet__check").style.display = "block";
-  
-      document.querySelector(".connect__block").style.marginTop = "85px";
-  
-      const userRef = doc(db, "users", telegramUserId);
-      setDoc(userRef, { wallet: walletAddress }, { merge: true })
-        .then(() => {
-          updateDoc(userRef, {
-            points: increment(1000)
-          }).then(() => {
-            console.log("1000 points успішно додано.");
-          }).catch((error) => {
-            console.error("Помилка при оновленні points:", error);
-          });
-        })
-        .catch((error) => {
-          console.error("Помилка при збереженні адреси гаманця:", error);
-        });
-    } else {
-      console.warn("Адреса гаманця повинна мати від 52 до 60 символів.");
-    }
-  }
-  
-  function formatWalletAddress(walletAddress) {
-    const firstPart = walletAddress.slice(0, 8);
-    const lastPart = walletAddress.slice(-8);
-    return `${firstPart}...${lastPart}`;
-  }
-  
-  document.querySelector(".send__wallet").addEventListener("click", saveWalletAddress);
-  
-  document.querySelector(".input__wallet").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-      saveWalletAddress();
-    }
-  });
-  
-  document.querySelector(".input__wallet").addEventListener("focus", function() {
-    document.querySelector(".connect__block").style.marginTop = "10px";
-  });
-  
-  document.querySelector(".send__wallet").addEventListener("click", function() {
-    document.querySelector(".connect__block").style.marginTop = "85px";
-  });
-  
-  getDoc(userRef).then((docSnapshot) => {
-    if (docSnapshot.exists() && docSnapshot.data().wallet) {
-      const walletAddress = docSnapshot.data().wallet;
-      
-      document.querySelector(".input__wallet").style.display = "none";
-      document.querySelector(".send__wallet").style.display = "none";
-      document.querySelector(".wallet").style.display = "flex";
-      document.querySelector(".pool__first").style.display = "flex";
-      
-      const formattedWallet = formatWalletAddress(walletAddress);
-      document.querySelector(".wallet__adress").textContent = formattedWallet;
-  
-      document.querySelector(".coonect__name").style.display = "none";
-      document.querySelector(".wallet__name").style.display = "block";
-  
-      document.getElementById("wallet__cross").style.display = "none";
-      document.getElementById("wallet__check").style.display = "block";
-    }
-  }).catch((error) => {
-    console.error("Помилка при завантаженні даних користувача:", error);
-  });
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-document.querySelectorAll('.task__btn').forEach((taskBtn, index) => {
-  taskBtn.addEventListener('click', () => handleTaskClick(tasks[index]));
-});
-
-function handleTaskClick(task) {
-    getDoc(userRef).then((docSnapshot) => {
-      const userData = docSnapshot.data();
-      const completedTasks = userData.tasksCompleted || [];
-  
-      if (completedTasks.includes(task.name)) {
-        shakeCheckIcon(task.name);
-        return;
-      }
-  
-      if (task.isFriendTask) {
-        checkFriendTaskCompletion(task, userData.friends || 0);
-      } else {
-        window.location.href = task.url;
-  
-        const newPoints = (userData.points || 0) + task.points;
-        completedTasks.push(task.name);
-  
-        updateDoc(userRef, {
-          points: newPoints,
-          tasksCompleted: completedTasks
-        }).then(() => {
-          updateBalanceDisplay(newPoints);
-  
-          if (!task.isFriendTask) {
-            setTimeout(() => {
-              updateTaskIcon(task.name);
-            }, 7000);
-          } else {
-            updateTaskIcon(task.name);
-          }
-        }).catch((error) => {
-          console.error("Помилка при оновленні даних:", error);
-        });
-      }
-    });
-  }
-  
-
-
-
-
-
-
-function checkFriendTaskCompletion(task, currentFriends) {
-    if ((task.name === "Invite 1 friend" && currentFriends >= 1) || 
-        (task.name === "Invite 5 friend" && currentFriends >= 5)) {
-      completeTask(task);
-    } else {
-      shakeFriendTask();
-    }
-  }
-  
-  function shakeFriendTask() {
-    const friendTasks = document.querySelectorAll('.task__friend');
-    friendTasks.forEach(task => {
-      task.classList.add('shake-horizontally');
-      setTimeout(() => task.classList.remove('shake-horizontally'), 1000); // Анімація трясіння протягом 1 секунди
-    });
-  }
-
-function completeTask(task) {
-  getDoc(userRef).then((docSnapshot) => {
-    const userData = docSnapshot.data();
-    const newPoints = (userData.points || 0) + task.points;
-    const completedTasks = [...userData.tasksCompleted, task.name];
-
-    updateDoc(userRef, {
-      points: newPoints,
-      tasksCompleted: completedTasks
-    }).then(() => {
-      updateBalanceDisplay(newPoints);
-      updateTaskIcon(task.name);
-    }).catch((error) => {
-      console.error("Помилка при оновленні даних:", error);
-    });
-  });
-}
-
-function updateTaskIcon(taskName) {
-    document.querySelectorAll('.task__btn').forEach(taskBtn => {
-      const name = taskBtn.querySelector('.task__name').innerText;
-      if (name === taskName) {
-        const crossIcon = taskBtn.querySelector('.tsask__icon img:first-child');
-        const checkIcon = taskBtn.querySelector('.tsask__icon img:last-child');
-        
-        crossIcon.style.display = 'none';
-        checkIcon.style.display = 'block';
-      }
-    });
-  }
-
-function updateTaskIcons(completedTasks) {
-  document.querySelectorAll('.task__btn').forEach(taskBtn => {
-    const name = taskBtn.querySelector('.task__name').innerText;
-    if (completedTasks.includes(name)) {
-      const crossIcon = taskBtn.querySelector('.tsask__icon img:first-child');
-      const checkIcon = taskBtn.querySelector('.tsask__icon img:last-child');
-      
-      crossIcon.style.display = 'none';
-      checkIcon.style.display = 'block';
-    }
-  });
-}
-
-function shakeCheckIcon(taskName) {
-  document.querySelectorAll('.task__btn').forEach(taskBtn => {
-    const name = taskBtn.querySelector('.task__name').innerText;
-    if (name === taskName) {
-      const checkIcon = taskBtn.querySelector('.check__icon');
-      checkIcon.classList.add('shake');
-      setTimeout(() => checkIcon.classList.remove('shake'), 500);
-    }
-  });
-}
-
-function updateTicketDisplay(tickets) {
-  const ticketDisplay = document.querySelector('.ticket');
-  ticketDisplay.innerHTML = `${tickets} ticket`;
-}
-
-function updateBalanceDisplay(points) {
-  const balanceDisplay = document.querySelector('.balance');
-  balanceDisplay.innerHTML = `${points} <span>sladi</span>`;
-}
-
-function shakeTickets() {
-  const ticketDisplay = document.querySelector('.ticket');
-  ticketDisplay.classList.add('shake');
-  navigator.vibrate(50);
-  setTimeout(() => ticketDisplay.classList.remove('shake'), 500);
-}
-
-document.querySelector('.start').addEventListener('click', function() {
-  getDoc(userRef).then((docSnapshot) => {
-    const tickets = docSnapshot.data().tickets || 0;
-
-    if (tickets > 0) {
-      updateDoc(userRef, {
-        tickets: tickets - 1
-      }).then(() => {
-        updateTicketDisplay(tickets - 1);
-        startGame();
-      });
-    } else {
-      shakeTickets();
-    }
-  });
-});
-
-
-
-
-
-
-
-function startGame() {
-    const ticket = document.querySelector('.main__ticket');
-    const game = document.querySelector('.main__game');
-    const gameBlock = document.querySelector('.game__block');
-    const scoreDisplay = document.querySelector('.score');
-    const timerDisplay = document.querySelector('.seconds');
-    const scoreEndDisplay = document.querySelector('.score__end');
-    const scoreStartDisplay = document.querySelector('.score__start'); // Додаємо елемент score__start
-  
-    let score = 0;
-    scoreDisplay.innerHTML = `0<span>sladi</span>`;
-    let timeLeft = 30;
-    let spawnInterval;
-  
-    const maxScore = 500;
-    const maxClicks = 30;
-    const basePoints = maxScore / maxClicks;
-  
-    ticket.style.display = 'none';
-    game.style.display = 'block';
-  
-    const timerInterval = setInterval(() => {
-      timeLeft--;
-      timerDisplay.textContent = `${timeLeft}s`;
-  
-      if (timeLeft <= 0) {
-        clearInterval(timerInterval);
-        clearInterval(spawnInterval);
-  
-        game.style.display = 'none';
-        ticket.style.display = 'block';
-        scoreEndDisplay.style.display = 'block';
-        scoreEndDisplay.innerHTML = `+ ${Math.round(score)} <span>sladi</span>`;
-  
-        scoreStartDisplay.style.display = 'none';
-  
-        getDoc(userRef).then((docSnapshot) => {
-          const currentPoints = docSnapshot.data().points || 0;
-          const totalPoints = currentPoints + Math.round(score);
-  
-          updateDoc(userRef, {
-            points: totalPoints
-          }).then(() => {
-            updateBalanceDisplay(totalPoints); 
-            console.log("User points updated in Firestore:", totalPoints);
-          }).catch((error) => {
-            console.error("Error updating user points:", error);
-          });
-        });
-      }
-    }, 1000);
-  
-    spawnInterval = setInterval(() => {
-      const img = document.createElement('img');
-      img.src = './img/slad-lvl-1.png';
-      img.alt = '';
-      img.classList.add('sladi__img');
-  
-      const randomSize = Math.floor(Math.random() * (75 - 30 + 1)) + 30;
-      img.style.width = randomSize + 'px';
-      img.style.height = randomSize + 'px';
-  
-      const maxX = gameBlock.clientWidth - randomSize;
-      const maxY = gameBlock.clientHeight - randomSize;
-      img.style.left = Math.floor(Math.random() * maxX) + 'px';
-      img.style.top = Math.floor(Math.random() * maxY) + 'px';
-  
-      const randomRotation = Math.floor(Math.random() * 360);
-      img.style.transform = `rotate(${randomRotation}deg)`;
-  
-      gameBlock.appendChild(img);
-  
-      img.addEventListener('click', () => {
-        const points = ((105 - randomSize) / 75) * basePoints;
-        score += points;
-        scoreDisplay.innerHTML = `${Math.round(score)}<span>sladi</span>`;
-        navigator.vibrate(30);
-        img.remove();
-      });
-  
-      setTimeout(() => {
-        img.style.opacity = '0';
-        setTimeout(() => {
-          img.remove();
-        }, 700);
-      }, 700);
-    }, 250);
-  
-    setTimeout(() => {
-      clearInterval(spawnInterval);
-    }, 30000);
-  }
-  
-
-
-
-  function shakeeTickets() {
-    const ticketDisplay = document.querySelector('.ticket');
-    const scoreStartDisplay = document.querySelector('.score__start');
-    
-    const originalText = scoreStartDisplay.innerHTML;
-    scoreStartDisplay.innerHTML = "You will receive the tickets in 1 day";
-    
-    ticketDisplay.classList.add('shake');
-    navigator.vibrate(50);
-    setTimeout(() => ticketDisplay.classList.remove('shake'), 500);
-    
-    setTimeout(() => {
-      scoreStartDisplay.innerHTML = originalText;
-    }, 2000);
-  }
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const fadeOverlay = document.querySelector('.fade-overlay');
-
-function switchPageWithFade(hideElement, showElement) {
-    fadeOverlay.classList.add('active');
-
-    setTimeout(() => {
-        hideElement.style.display = 'none';
-
-        showElement.style.display = 'block';
-
-        setTimeout(() => {
-            fadeOverlay.classList.remove('active');
-        }, 200);
-    }, 200);
-}
-
-function showNav() {
-    document.querySelector('.nav').style.display = 'block';
-}
-
-function hideNav() {
-    document.querySelector('.nav').style.display = 'none';
-}
-
-const backButton = document.querySelector('.back');
-const ticketMain = document.querySelector('.main__ticket');
-const homeMain = document.querySelector('.main__home');
-
-backButton.addEventListener('click', () => {
-    switchPageWithFade(ticketMain, homeMain);
-    navigator.vibrate(20);
-    showNav();
-});
-
-const taskButton = document.querySelector('.nav__task-btn');
-const taskMain = document.querySelector('.main__task');
-
-taskButton.addEventListener('click', () => {
-    switchPageWithFade(homeMain, taskMain);
-    hideNav();
-});
-
-const friendButton = document.querySelector('.nav__friend-btn');
-const friendMain = document.querySelector('.main__friend');
-
-friendButton.addEventListener('click', () => {
-    switchPageWithFade(homeMain, friendMain);
-    hideNav();
-});
-
-const backButtonTask = document.querySelector('.back__task-btn');
-
-backButtonTask.addEventListener('click', () => {
-    switchPageWithFade(taskMain, homeMain);
-    navigator.vibrate(20);
-
-    showNav();
-});
-
-const friendBackActionButton = document.querySelector('.back__friend-btn');
-
-friendBackActionButton.addEventListener('click', () => {
-    switchPageWithFade(friendMain, homeMain);
-    navigator.vibrate(20);
-    showNav();
-});
-
-const playButton = document.querySelector('.home__play');
-const mainTicket = document.querySelector('.main__ticket');
-const menu = document.querySelector('.menu');
-
-playButton.addEventListener('click', () => {
-    switchPageWithFade(homeMain, mainTicket);
-    menu.style.position = 'static';
-    hideNav();
-});
-
-setTimeout(() => {
-    document.querySelector('.main__preloader').style.display = 'none';
-    homeMain.style.display = 'block';
-    document.querySelector('.menu').style.position = 'fixed';
-    showNav();
-}, 1000);
-
-const btnWallet = document.querySelector('#btn__wallet');
-const mainConnectWallet = document.querySelector('.main__connect-wallet');
-
-btnWallet.addEventListener('click', () => {
-    switchPageWithFade(taskMain, mainConnectWallet);
-});
-
-const backWalletBtn = document.querySelector('.back__wallet-btn');
-
-backWalletBtn.addEventListener('click', () => {
-    navigator.vibrate(20);
-    switchPageWithFade(mainConnectWallet, taskMain);
-});
-
-const bacckButton = document.querySelector('.back');
-const nav = document.querySelector('.nav');
-
-bacckButton.addEventListener('click', function() {
-  nav.style.display = 'block';
-});
-
-
-
-
-
-
-
-document.querySelector('.back').addEventListener('click', function() {
-    const menu = document.querySelector('.menu');
-    menu.style.position = 'fixed';
-  });
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-  const images = document.querySelectorAll('.puffers__lvl, .fuuz__lvl, .zing__lvl');
-  const startButton = document.querySelector('.home__play');
-  const buyFuuzButton = document.querySelector('.home__buy-fuuz');
-  const buyZingButton = document.querySelector('.home__buy-zing');
-  const balance = document.querySelector('.balance');
-  let currentIndex = 0;
-
-  function showImage(index) {
-    images.forEach((img, i) => {
-      img.style.display = i === index ? 'block' : 'none';
-    });
-
-    if (index === 1) {
-      startButton.style.display = 'none';
-      buyFuuzButton.style.display = 'block';
-      buyZingButton.style.display = 'none';
-    } else if (index === 2) {
-      startButton.style.display = 'none';
-      buyFuuzButton.style.display = 'none';
-      buyZingButton.style.display = 'block';
-    } else {
-      startButton.style.display = 'block';
-      buyFuuzButton.style.display = 'none';
-      buyZingButton.style.display = 'none';
-    }
-  }
-
-  buyFuuzButton.addEventListener('click', () => shakeBalance());
-  buyZingButton.addEventListener('click', () => shakeBalance());
-
-  function shakeBalance() {
-    balance.classList.add('shake');
-    setTimeout(() => balance.classList.remove('shake'), 300);
-    navigator.vibrate(30);
-  }
-
-  document.querySelector('.right__btn').addEventListener('click', () => {
-    currentIndex = (currentIndex + 1) % images.length;
-    showImage(currentIndex);
-  });
-
-  document.querySelector('.left__btn').addEventListener('click', () => {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    showImage(currentIndex);
-  });
-
-  showImage(currentIndex);
-
-
-
-
-const usernameElement = document.querySelector('.username');
-
-function displayTelegramUsername() {
-    if (window.Telegram && window.Telegram.WebApp) {
-        const user = Telegram.WebApp.initDataUnsafe.user;
-        if (user && user.username) {
-            usernameElement.textContent = user.username;
-        } else {
-            usernameElement.textContent = "Anonymous";
+const balanceElement = document.querySelector(".balance");
+
+function updateUserDataDisplay() {
+  getDoc(userRef).then(docSnapshot => {
+    if (docSnapshot.exists()) {
+      const { tickets, points, tasksCompleted } = docSnapshot.data();
+      document.querySelector(".ticket").textContent = `${tickets} ticket`;
+      balanceElement.innerHTML = `${points} <span>Sladi</span>`;
+      document.querySelectorAll(".task__btn").forEach(taskElement => {
+        const taskName = taskElement.dataset.name;
+        if (tasksCompleted.includes(taskName)) {
+          taskElement.querySelector('.check__icon').style.display = 'block';
+          taskElement.querySelector('.cross__icon').style.display = 'none';
+          taskElement.setAttribute('disabled', 'true');
         }
+      });
+    } else {
+      setDoc(userRef, {
+        telegramId: telegramUserId,
+        points: 0,
+        tasksCompleted: [],
+        friends: 0,
+        tickets: 10,
+        lastLogin: new Date().toISOString()
+      }).then(updateUserDataDisplay);
     }
+  }).catch(error => console.error("Error getting user data:", error));
 }
 
-document.addEventListener('DOMContentLoaded', displayTelegramUsername);
+updateUserDataDisplay();
+// ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК 
+// ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК ТАСК 
+function handleTaskClick(el) {
+  const { name: taskName, task: taskType, reward, friends: reqFriends = 0, url } = el.dataset;
+  const rewardInt = parseInt(reward), reqFriendsInt = parseInt(reqFriends);
+  const updatePoints = (points, completed) => updateDoc(userRef, { points, tasksCompleted: [...completed, taskName] });
+  const toggleIcons = (showCheck) => {
+      el.querySelector('.cross__icon').style.display = showCheck ? 'none' : 'block';
+      el.querySelector('.check__icon').style.display = showCheck ? 'block' : 'none';
+  };
+
+  taskType !== "friend" && setTimeout(() => toggleIcons(true), 2000);
+  if (taskType === "friend") toggleIcons(true);
+
+  getDoc(userRef).then(doc => {
+      if (!doc.exists()) return console.error("User document not found.");
+      const { points, tasksCompleted, friends, wallet } = doc.data();
+
+      if (tasksCompleted.includes(taskName)) return el.classList.add('shake') && setTimeout(() => el.classList.remove('shake'), 1000);
+
+      if (taskType === "wallet") {
+          const walletPage = document.querySelector('.main__connect-wallet');
+          walletPage.style.display = 'block'; document.querySelector('.main__task').style.display = 'none';
+          const submitWallet = () => {
+              const walletAddress = document.querySelector('.input__wallet').value.trim();
+              if (!walletAddress) return alert("Enter wallet address.");
+              updateDoc(userRef, { wallet: walletAddress }).then(() => {
+                  updatePoints(points + rewardInt, tasksCompleted).then(() => {
+                      walletPage.style.display = 'none';
+                      document.querySelector('.main__task').style.display = 'block';
+                      updateUI(el, points + rewardInt);  // Оновлення балів в UI
+                  });
+              });
+          };
+          document.querySelector('.send__wallet').addEventListener('click', submitWallet);
+          document.querySelector('.input__wallet').addEventListener('keydown', (e) => e.key === 'Enter' && submitWallet());
+          return;
+      }
+
+      if (taskType === "friend") {
+          if (friends >= reqFriendsInt) {
+              updatePoints(points + rewardInt, tasksCompleted).then(() => updateUI(el, points + rewardInt));  // Оновлення балів в UI
+          } else {
+              toggleIcons(false);
+              el.querySelector('.cross__icon').classList.add('shake');
+              setTimeout(() => el.querySelector('.cross__icon').classList.remove('shake'), 1000);
+          }
+          return;
+      }
+
+      if (taskType === "link") {
+          window.open(url || el.dataset.link, "_blank");
+          updatePoints(points + rewardInt, tasksCompleted).then(() => updateUI(el, points + rewardInt));  // Оновлення балів в UI
+      }
+  }).catch(err => console.error("Error:", err));
+}
+
+function updateUI(el, points) {
+  document.querySelector('.balance').innerHTML = `${points} <span>Sladi</span>`;  // Оновлення балів на сторінці
+  el.disabled = true;
+}
+
+document.querySelectorAll('.task__btn').forEach(btn => btn.addEventListener('click', () => handleTaskClick(btn)));
+// КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ
+// КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ
+// КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ КОД ДЛЯ ГРИ
+document.querySelector(".start").addEventListener("click", () => {
+  const ticketScreen = document.querySelector(".main__ticket");
+  const gameScreen = document.querySelector(".main__game");
+  const scoreStartElement = document.querySelector(".score__start");
+  const scoreEndElement = document.querySelector(".score__end");
+  const scoreElement = document.querySelector(".score");
+  const secondsElement = document.querySelector(".seconds");
+  const gameBlock = document.querySelector(".game__block");
+  const friendNumElement = document.querySelector(".friend__num");
+
+  let points = 0;
+
+  getDoc(userRef).then(docSnapshot => {
+    if (docSnapshot.exists()) {
+      const userData = docSnapshot.data();
+      if (userData.tickets > 0) {
+        setDoc(userRef, { tickets: userData.tickets - 1 }, { merge: true }).then(() => updateUserDataDisplay());
+        ticketScreen.style.display = "none";
+        gameScreen.style.display = "block";
+        let timer = 30;
+        const countdown = setInterval(() => {
+          secondsElement.textContent = `${--timer}s`;
+          if (timer <= 0) {
+            clearInterval(countdown);
+            endGame();
+          }
+        }, 1000);
+
+        function endGame() {
+          gameBlock.innerHTML = "";
+          gameScreen.style.display = "none";
+          ticketScreen.style.display = "block";
+          scoreStartElement.style.display = "none";
+          scoreEndElement.style.display = "block";
+          scoreEndElement.innerHTML = `+ ${points} <span>Sladi</span>`;
+          updatePoints(points);
+        }
+
+        function updatePoints(points) {
+          getDoc(userRef).then(docSnapshot => {
+            if (docSnapshot.exists()) {
+              const userData = docSnapshot.data();
+              setDoc(userRef, { points: userData.points + points }, { merge: true }).then(() => updateUserDataDisplay());
+            }
+          }).catch(err => console.error("Error updating balance:", err));
+        }
+
+        const spawnInterval = setInterval(() => {
+          if (timer <= 0) {
+            clearInterval(spawnInterval);
+            return;
+          }
+          const img = document.createElement("img");
+          img.src = "./img/slad-lvl-1.png";
+          const size = Math.floor(Math.random() * 51) + 50;
+          img.style.cssText = `width:${size}px;height:${size}px;position:absolute;top:${Math.random() * (gameBlock.clientHeight - size)}px;left:${Math.random() * (gameBlock.clientWidth - size)}px;transition:transform 0.3s, opacity 0.3s;transform:rotate(${Math.random() * 360}deg)`;
+          img.addEventListener("click", () => {
+            const pointsEarned = size === 100 ? 25 : Math.round(75 - size / 2);
+            points += pointsEarned;
+            scoreElement.innerHTML = `${points}<span> Sladi</span>`;
+            img.style.opacity = "0";
+            img.style.transform = "scale(0.5)";
+            setTimeout(() => img.remove(), 300);
+          });
+          gameBlock.appendChild(img);
+          setTimeout(() => { if (gameBlock.contains(img)) img.remove(); }, 3000);
+        }, 300);
+
+        if (userData.friend) friendNumElement.textContent = `friens: ${userData.friend}`;
+      } else {
+        alert("У вас немає квитків для гри!");
+      }
+    }
+  }).catch(err => console.error("Error getting tickets:", err));
+});
+// КОД ДЛЯ ГОРТАННЯ СКіНІВ
+// КОД ДЛЯ ГОРТАННЯ СКіНІВ
+// КОД ДЛЯ ГОРТАННЯ СКіНІВ
+const levels = [
+  { image: document.querySelector('.puffers__lvl'), button: document.querySelector('.home__play') },
+  { image: document.querySelector('.fuuz__lvl'), button: document.querySelector('.home__buy-fuuz') },
+  { image: document.querySelector('.zing__lvl'), button: document.querySelector('.home__buy-zing') }
+];
+let currentLevel = 0;
+
+function updateLevels() {
+  levels.forEach((level, index) => {
+    level.image.style.display = index === currentLevel ? 'block' : 'none';
+    level.button.style.display = index === currentLevel ? 'block' : 'none';
+  });
+}
+
+function shakeBalance() {
+  const balance = document.querySelector('.balance');
+  balance.classList.add('shake');
+  setTimeout(() => balance.classList.remove('shake'), 300);
+}
+
+document.querySelector('.home__buy-fuuz').addEventListener('click', shakeBalance);
+document.querySelector('.home__buy-zing').addEventListener('click', shakeBalance);
+document.querySelector('.right__btn').addEventListener('click', () => { currentLevel = (currentLevel + 1) % levels.length; updateLevels(); });
+document.querySelector('.left__btn').addEventListener('click', () => { currentLevel = (currentLevel - 1 + levels.length) % levels.length; updateLevels(); });
+
+updateLevels();
+// ПРЕЛОАДЕР
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      const preloader = document.querySelector(".main__preloader");
+      const home = document.querySelector(".main__home");
+      const nav = document.querySelector(".nav");
+      const menu = document.querySelector(".menu");
+      if (preloader && home) {
+        preloader.style.display = "none";
+        home.style.display = "block";
+      }
+      if (nav) {
+        nav.style.display = "block";
+      }
+  
+      if (menu) {
+        menu.style.position = "fixed";
+      }
+    }, 2000);
+  });
 
 
-
-
-
-
-document.querySelector('.invite__btn').addEventListener('click', () => {
-    const id = telegramUserId;
-    const RefLink = `https://t.me/SladiGameBot?start=${id}`;
-    const text = '🎀Join to SladiGame!🎀';
-
-    window.open(`https://t.me/share/url?url=${encodeURIComponent(RefLink)}&text=${encodeURIComponent(text)}`, "_blank");
+// ПЛАВНІ ПЕРЕХОДИ
+  function smoothTransition(hide, show, cb) {
+    const overlay = document.querySelector('.fade-overlay');
+    overlay.classList.add('active');
+    setTimeout(() => {
+      document.querySelector(hide).style.display = 'none';
+      document.querySelector(show).style.display = 'block';
+      overlay.classList.remove('active');
+      cb?.();
+    }, 200);
+  }
+  
+// ПЕРЕХОДИМО В ФРЕНД
+document.querySelector('.nav__friend-btn').addEventListener('click', function() {
+  smoothTransition('.main__home', '.main__friend', () => {
+      document.querySelector('.nav').style.display = 'none';
+  });
 });
 
+// ПЕРЕХОДИМО В ТАСК
+document.querySelector('.nav__task-btn').addEventListener('click', function() {
+  smoothTransition('.main__home', '.main__task', () => {
+      document.querySelector('.nav').style.display = 'none';
+  });
+});
 
+// ВИХІД НАЗАД З ФРЕНД
+document.querySelector('.back__friend-btn').addEventListener('click', function() {
+  smoothTransition('.main__friend', '.main__home', () => {
+      document.querySelector('.nav').style.display = 'block';
+  });
+});
 
-function openTonWallet() {
-  const amount = 0.01; // Сума оплати в TON
-  const receiverAddress = 'UQC2S11L-7Xqqc2kNl8ZLOXy4nqAPpbmEBB5V9WUXn7tNEPL'; // Ваша адреса гаманця TON, куди надійде платіж
+// ВИХІД НАЗАД З ТАСК
+document.querySelector('.back__task-btn').addEventListener('click', function() {
+  smoothTransition('.main__task', '.main__home', () => {
+      document.querySelector('.nav').style.display = 'block';
+  });
+});
 
-  // Створення посилання для оплати
-  const tonPayUrl = `https://tonhub.com/transfer/${receiverAddress}?amount=${amount * 1e9}&text=Purchase+Zing`;
+// ПЕРЕХОДИМО В ТІКЕТ
+document.querySelector('.home__play').addEventListener('click', function() {
+  smoothTransition('.main__home', '.main__ticket', () => {
+      document.querySelector('.nav').style.display = 'none';
+  });
+});
 
-  // Відкриття посилання в новому вікні
-  window.open(tonPayUrl, '_blank');
-}
+// ВИХОДИМО З ТІКЕТ
+document.querySelector('.back').addEventListener('click', function() {
+  smoothTransition('.main__ticket', '.main__home', () => {
+      document.querySelector('.nav').style.display = 'block';
+  });
+});
+
+// ВИХІД З ГАМАНЦЯ
+document.querySelector('.back__wallet-btn').addEventListener('click', function() {
+  smoothTransition('.main__connect-wallet', '.main__task');
+});
+
+// ВІДОБРАЖЕННЯ ДРУЗІВ
+// ВІДОБРАЖЕННЯ ДРУЗІВ
+// ВІДОБРАЖЕННЯ ДРУЗІВ
+// ВІДОБРАЖЕННЯ ДРУЗІВ
+getDoc(userRef).then(d => {
+  if (d.exists()) document.querySelector(".friend__num").textContent = `friends: ${d.data().friends || 0}`;
+}).catch(console.error);
